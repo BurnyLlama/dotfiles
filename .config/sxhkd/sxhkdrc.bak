@@ -1,0 +1,119 @@
+#
+# Launch Apps, Hot-Reload Configs, Etc.
+#
+
+super + Return
+	alacritty
+
+super + Escape
+	pkill -USR1 -x sxhkd
+
+super + alt + {q,r}
+	bspc {quit, wm -r}
+
+super + @space
+    rofi -show drun
+
+super + @Tab
+    rofi -show window
+
+#
+# Window Navigation, Etc.
+#
+
+# Kill window
+super + {_,shift + }q
+	bspc node -{k,c}
+
+# Alternate layouts
+super + m
+	bspc desktop -l next
+
+# Set window state
+super + {t,shift + t,f,shift + f}
+	bspc node -t {tiled,pseudo-tiled,floating,fullscreen}
+
+# Focus with Super + Direction, Swap with Super + Direction
+super + {_,shift + }{Left,Down,Up,Right}
+    bspc node -{f,s} {west,south,north,east}
+
+# Move the window
+super + ctrl + {Left,Down,Up,Right}
+    bspc node -n {west,south,north,east}
+    
+# expand a window by moving one of its side outward
+super + alt + {Left,Up,Down,Right}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {Left,Up,Down,Right}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# rotate the leaves of the tree
+super + {o,p}
+    bspc node @focused:/ -R {270,90}
+
+# flip the leaves of the tree
+super + shift + {o,p}
+    bspc node @focused:/ -F {horizontal,vertical}
+
+# focus the next/previous node in the current desktop
+alt + {_,shift + }Tab
+	bspc node -f {next,prev}.local
+
+# focus the next/previous node in the current desktop
+super + {_,shift + }Tab
+	bspc node -f {next,prev}.local
+
+
+#
+# Workspaces
+#
+
+# focus the next/previous desktop in the current monitor
+super + {h,l}
+	bspc desktop -f {prev,next}.local
+
+# focus or send (shift) to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+
+#
+# Utilities - Screenshot, calc, etc.
+#
+super + shift + s
+    flameshot gui
+
+super + @Print
+    screenshot area
+
+super + c
+    rofi -show calc -modi calc
+super + period
+    rofi -modi "emoji:/usr/bin/rofimoji" -show emoji -no-show-icons
+
+#
+# Brightness, Volume, Etc.
+#
+
+XF86MonBrightnessDown
+	brighty dec
+XF86MonBrightnessUp
+	brighty inc
+
+super + n
+	night
+	
+XF86AudioRaiseVolume
+	sat up
+XF86AudioLowerVolume
+	sat down
+XF86AudioMute
+    sat toggle
+XF86AudioNext
+    sat next
+XF86AudioPrev
+    sat prev
+XF86AudioPause
+    sat pause

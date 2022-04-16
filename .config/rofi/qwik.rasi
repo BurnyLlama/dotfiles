@@ -1,0 +1,153 @@
+/*
+ * sidetab-adapta theme,
+ * based on sidetab theme by deadguy.
+ *
+ * This theme has been dedicated to the public domain.
+ *
+ */
+
+ /*
+  * Modified by BurnyLlama
+  */
+
+configuration {
+        show-icons:   true;
+        sidebar-mode: false;
+        font: "Montserrat 12";
+}
+
+* {
+        background-color:           #20203F;
+        background2-color:          #30304F;
+        text-color:                 #E0E0FF;
+
+        accent-color:               #3DDF89;
+        accent2-color:              #4DEF8C;
+        hover-color:                @background2-color;
+        urgent-color:               #EF5255;
+        window-color:               #60607F;
+
+        selected-normal-foreground: @text-color;
+        normal-foreground:          @text-color;
+        selected-normal-background: @hover-color;
+        normal-background:          @background-color;
+
+        selected-urgent-foreground: @background-color;
+        urgent-foreground:          @text-color;
+        selected-urgent-background: @urgent-color;
+        urgent-background:          @background-color;
+
+        selected-active-foreground: @window-color;
+        active-foreground:          @text-color;
+        selected-active-background: @hover-color;
+        active-background:          @accent-color;
+}
+
+window {
+        anchor:   center;
+        location: center;
+        width:    30%;
+        height:   50%;
+        border:   1px solid;
+        border-color:   @accent-color;
+        fullscreen: false;
+}
+
+mainbox {
+        children: [ entry, listview, mode-switcher ];
+}
+
+entry {
+        expand: false;
+        margin: 48px 96px 28px 96px;
+        padding: 14px 18px 11px 18px;
+        border: 0 0 1px 0;
+        border-color: @accent-color;
+        border-radius: 8px 8px 0 0;
+        background-color: @hover-color;
+        blink: true;
+}
+
+element {
+        margin: 2px 64px;
+        padding: 12px 32px;
+        vertical-align: 0.5;
+        border-radius: 0 8px 8px 0;
+}
+
+element normal.normal {
+        background-color: @normal-background;
+        text-color:       @normal-foreground;
+}
+
+element normal.urgent {
+        background-color: @urgent-background;
+        text-color:       @urgent-foreground;
+}
+
+element normal.active {
+        background-color: @background2-color;
+        text-color:       @active-foreground;
+}
+
+element selected.normal {
+        background-color: @selected-normal-background;
+        text-color:       @selected-normal-foreground;
+        border:           0 0 0 4px solid;
+        border-color:     @accent2-color;
+}
+
+element selected.urgent {
+        background-color: @selected-urgent-background;
+        text-color:       @selected-urgent-foreground;
+}
+
+element selected.active {
+        background-color: @selected-active-background;
+        text-color:       @selected-active-foreground;
+        border:           0 0 0 4px solid;
+        border-color:     @accent2-color;
+}
+
+element alternate.normal {
+        background-color: @normal-background;
+        text-color:       @normal-foreground;
+}
+
+element alternate.urgent {
+        background-color: @urgent-background;
+        text-color:       @urgent-foreground;
+}
+
+element alternate.active {
+        background-color: @active-background;
+        text-color:       @active-foreground;
+}
+
+element-text {
+        background-color: transparent;
+        vertical-align: 0.5;
+}
+
+element-icon {
+        background-color: transparent;
+        margin: 0 8px 0 0;
+        size: 32px;
+        vertical-align: 0.5;
+}
+
+mode-switcher {
+    enabled: false;
+}
+
+button {
+        padding: 8px;
+        border-radius: 8px;
+}
+
+button selected {
+        background-color: @active-background;
+        text-color:       @background-color;
+}
+
+/* vim: ft=css
