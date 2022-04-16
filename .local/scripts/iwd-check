@@ -1,0 +1,30 @@
+#!/bin/bash
+
+echo -e "\n\n\n\nRunning at: $(date +"%Y-%m-%d -- %H:%M:%S")"
+
+[[ `id -u` -ne 0 ]] && echo "Please run as root or with sudo/doas!" && exit
+
+echo "Test 1: '10.0.0.1'"
+/usr/bin/curl http://10.0.0.1 && echo "Test 1 succeeded!" && exit
+echo "Text 1 failed!"
+
+echo "Test 2: 'gentoo.org'"
+/usr/bin/curl https://gentoo.org && echo "Test 2 succeeded!" && exit
+echo "Text 2 failed!"
+
+echo "Test 3: 'kernel.org'"
+/usr/bin/curl https://kernel.org && echo "Test 3 succeeded!" && exit
+echo "Text 3 failed!"
+
+echo "Test 4: 'google.com'"
+/usr/bin/curl https://google.com && echo "Test 4 succeeded!" && exit
+echo "Text 4 failed!"
+
+
+
+echo "All tests failed!"
+echo "Assuming dead iwd; restarting it!"
+/sbin/rc-service iwd restart
+
+echo "Also restarting wireguard, since it is weird..."
+/sbin/rc-service wg-quick.wg0 restart

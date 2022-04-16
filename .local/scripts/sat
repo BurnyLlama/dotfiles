@@ -1,0 +1,67 @@
+ #!/bin/bash
+
+# SAT is a: 
+# Simple
+# Audio
+# Tool
+
+# Dependencies:
+# pamixer, playerctl, notify-send.py, [deadd notification center]
+
+
+
+ACTION=$1
+case "$ACTION" in 
+    "up")
+        pamixer --unmute
+        pamixer --allow-boost --increase 5
+        VOLUME=$(pamixer --get-volume)
+        ICON="audio-volume-low"
+        [[ $((VOLUME)) -gt 29 ]] && ICON="audio-volume-medium"
+        [[ $((VOLUME)) -gt 59 ]] && ICON="audio-volume-high"
+        STATUS="Volume: $(pamixer --get-volume)%"
+        notify-send.py --replaces-process "Volume Info" -a "Volume Info" -t 3000  "Audio info" "$STATUS" -i $ICON &
+        ;;
+    "down")
+        pamixer --unmute
+        pamixer --allow-boost --decrease 5
+        VOLUME=$(pamixer --get-volume)
+        ICON="audio-volume-low"
+        [[ $((VOLUME)) -gt 34 ]] && ICON="audio-volume-medium"
+        [[ $((VOLUME)) -gt 74 ]] && ICON="audio-volume-high"
+        STATUS="Volume: $(pamixer --get-volume)%"
+        notify-send.py --replaces-process "Volume Info" -a "Volume Info" -t 3000  "Audio info" "$STATUS" -i $ICON &
+        ;;
+     "mute")
+        pamixer --toggle-mute
+        MUTED=$(pamixer --get-mute)
+        [[ "$MUTED" == "true" ]] && ICON="audio-volume-muted" || ICON="audio-volume-high"
+        [[ "$MUTED" == "true" ]] && STATUS="Audio is muted." || STATUS="Audio is not muted. Volume: $(pamixer --get-volume)%"
+        notify-send.py --replaces-process "Volume Info" -a "Volume Info" -t 3000  "Audio info" "$STATUS" -i $ICON &
+        ;;
+    "pause") 
+        playerctl play-pause
+        sat media-info
+        ;;
+    "next")
+        playerctl next
+        sat media-info
+        ;;
+    "prev")
+        playerctl previous
+        sat media-info
+        ;;
+    "media-info")
+        ICON="player_playing" || ICON="player_paused"
+        PLAYING=$(playerctl status)
+        [[ "$PLAYING" == "Playing" ]] && ICON="media-playback-playing" || ICON="media-playback-paused"
+        ARTIST=$(playerctl metadata xesam:artist)
+        TITLE=$(playerctl metadata xesam:title)
+        IMAGE_URL=$(playerctl metadata mpris:artUrl)
+        notify-send.py --replaces-process "Volume Info" -a "Volume Info" -t 5000 "Audio info" " ${ARTIST}\n ${TITLE}" --hint string:image-path:$IMAGE_URL -i $ICON &
+        ;;
+    *)
+        echo "Invalid usage! Please use any of the following: up, down, mute, pause, next, prev, media-info"
+        ;;
+esac
+exit

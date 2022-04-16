@@ -1,0 +1,32 @@
+#!/bin/bash
+# Source for custom Media dirs
+source ~/.config/user-dirs.dirs 
+
+MODE=$1
+FILE="${XDG_PICTURES_DIR}/Screenshots/Screenshot-$(date "+%F-%H:%M:%S").png"
+
+echo
+
+
+case $MODE in
+
+  "area")
+    gnome-screenshot -a -c --file=${FILE}
+    ;;
+
+  "window")
+    gnome-screenshot -w -c --file=${FILE}
+    ;;
+
+  "full")
+    gnome-screenshot -c --file=${FILE}
+    ;;
+
+  *)
+    echo "Error! Invalid usage."
+    ;;
+esac
+
+xclip -selection clipboard -t image/png <"$FILE"
+
+notify-send -a Screenshot -i gnome-screenshot-symbolic "Screenshot" "Screenshot taken and copied to clipboard."

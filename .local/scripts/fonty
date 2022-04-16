@@ -1,0 +1,35 @@
+#!/bin/bash
+
+case $1 in
+    "install")
+        mkdir ${HOME}/.local/share/fonts/Google
+        for font in $(seq 2 $#)
+        do
+            echo "Downloading font: ${!font}"
+            cd "${HOME}/.local/share/fonts/Google/"
+            mkdir "${!font}"
+            cd "${!font}"
+            wget -O "${!font}.zip" "https://fonts.google.com/download?family=${!font}"
+            unzip "${!font}.zip"
+            rm "${!font}.zip"
+            cd ..
+        done
+        echo "Reloading font-cache..."
+        fc-cache -fr
+    ;;
+
+    "uninstall")
+        for font in $(seq 2 $#)
+        do
+            rm "${HOME}/.local/share/fonts/Google/${!font}.ttf"
+        done
+        echo "Reloading font-cache..."
+        fc-cache -fr
+    ;;
+    *)
+        echo "Invalid use!"
+        echo "Usage: fonty [install/uninstall] <FontName> <FontName> <FontName> ..."
+        echo "If the font have spaces replace the spaces with \"%20\"."
+    ;;
+esac
+exit

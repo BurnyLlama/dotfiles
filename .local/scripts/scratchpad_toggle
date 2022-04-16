@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Start a new session if previous is killed...
+[ "$(ps -x | grep -c 'scratchpad')" -eq "1" ] && alacritty --config-file=${HOME}/.config/alacritty-scratch.yml --class scratchpad --command "scratchpad" &
+
+# Hide unhide....
+id=$(cat /tmp/scratchid);\
+bspc node $id --flag hidden;bspc node -f $id

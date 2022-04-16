@@ -1,0 +1,27 @@
+#!/bin/bash
+
+[[ -z "$1" ]] && echo "Please provide an action: start, stop" && exit
+[[ `id -u` -ne 0 ]] && echo "Please run as root or with sudo/doas!" && exit
+
+[[ -f /etc/port-forward-rules ]] || touch /etc/port-forward-rules
+
+case $1 in
+    "start")
+        echo "Adding rules..."
+        while read RULE; do
+            /opt/bin/port-forward $RULE
+        done < /etc/port-forward-rules
+    ;;
+
+    "stop")
+        echo "Removing rules..."
+        while read RULE; do
+            /opt/bin/port-forward-del $RULE
+        done < /etc/port-forward-rules
+    ;;
+
+    *)
+        echo "Bad option! Please use 'start' or 'stop'"
+        exit
+    ;;
+esac

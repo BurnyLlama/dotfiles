@@ -1,0 +1,31 @@
+#!/bin/bash
+while getopts "t:i:h:c:w:" arg; do
+  case $arg in
+    t)
+      TIME=$OPTARG 
+      ;;
+    i)
+      ICON=$OPTARG 
+      ;;
+    h)
+      HEADING=$OPTARG 
+      ;;
+    c)
+      CONTENT=$OPTARG 
+      ;;
+    w)
+      WHERE=$OPTARG 
+      ;;
+  esac
+done
+
+[ -z "$TIME" ] && TIME=3
+[ -z "$ICON" ] && ICON="/usr/share/icons/Papirus/48x48/status/dialog-information.svg"
+[ -z "$HEADING" ] && HEADING="Heading..."
+[ -z "$CONTENT" ] && CONTENT="Wow... Content... Never specified that, huh?"
+[ -z "$WHERE" ] && WHERE=960
+
+pkill badge
+badge_create "$ICON" "$HEADING" "$CONTENT" $WHERE &
+sleep $TIME
+pkill badge

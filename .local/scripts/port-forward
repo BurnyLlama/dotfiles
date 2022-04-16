@@ -1,0 +1,33 @@
+#!/bin/bash
+# Check this out: https://aboullaite.me/kvm-qemo-forward-ports-with-iptables/
+
+help () {
+    echo "Hold up! You are doing something wrong."
+    echo
+    echo "You need to provide the following arguments:"
+    echo "host_interface host_port guest_interface guest_subnet guest_ip guest_port"
+    echo
+    echo "Example: wlan0 8080 virbr0 192.168.100.0/24 192.168.100.67 80"
+    echo "This would forward all requests from port 8080 on wlan0 on the host to port 80 on the guest."
+}
+
+[[ -z "$6" ]] && help && exit
+[[ `id -u` -ne 0 ]] && echo "Please use sudo/doas or run as root." && exit
+
+IF_IN=$1
+PT_IN=$2
+IF_OUT=$3
+SUB_OUT=$4
+IP_OUT=$5
+PT_OUT=$6
+
+iptables -w -I FORWARD -o ${IF_OUT} -d ${IP_OUT} -j ACCEPT
+iptables -w -t nat -I PREROUTING -p tcp --dport ${PT_IN} -j DNAT --to ${IP_OUT}:${PT_OUT}
+
+iptables -w -I FORWARD -o ${IF_OUT} -d ${IP_OUT} -j ACCEPT
+iptables -w -t nat -A POSTROUTING -s ${SUB_OUT} -j MASQUERADE
+iptables -w -A FORWARD -o ${IF_OUT} -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -w -A FORWARD -i ${IF_OUT} -o ${IF_IN} -j ACCEPT
+iptables -w -A FORWARD -i ${IF_OUT} -o lo -j ACCEPT
+
+echo -e "ADDED RULE:\n\tHOST (${IF_IN}) 0.0.0.0:${PT_IN} --> REMOTE (${IF_OUT}) ${IP_OUT}:${PT_OUT} via ${SUB_OUT}"
