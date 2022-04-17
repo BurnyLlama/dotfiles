@@ -14,6 +14,7 @@ chmod +x "$SCRIPT_DIR/$SCRIPT_NAME"
 
 command -v nano && EDIT=nano
 command -v vim  && EDIT=vim
+command -v nvim && EDIT=nvim
 
 [[ -z $EDIT ]] && echo "Found no editor, you have to edit '$SCRIPT_DIR/$SCRIPT_NAME' by yourself!" && exit 1
 
