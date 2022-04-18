@@ -130,18 +130,18 @@ function kernel_install {
     echo
 
     echo "Installing kernel..."
-    [[ $KERNEL_INSTALL_KERNEL  == 'yes' ]] && $ELEVATOR silent_run make $KERNEL_BUILD_OPTS install         \
-        || (echo -e "Probably not in a kernel source directory! Try 'kernel cd <VERSION>' or 'kernel configure <VERSION>'\nVER: $1\nPWD: $(pwd)" && exit 1)
+    [[ $KERNEL_INSTALL_KERNEL  == 'yes' ]] && $ELEVATOR make $KERNEL_BUILD_OPTS install         \
+        #|| (echo -e "Probably not in a kernel source directory! Try 'kernel cd <VERSION>' or 'kernel configure <VERSION>'\nVER: $1\nPWD: $(pwd)" && exit 1)
 
     echo
     echo "Installing modules..."
-    [[ $KERNEL_INSTALL_MODULES == 'yes' ]] && $ELEVATOR silent_run make $KERNEL_BUILD_OPTS modules_install \
-        || (echo -e "Probably not in a kernel source directory! Try 'kernel cd <VERSION>' or 'kernel configure <VERSION>'\nVER: $1\nPWD: $(pwd)" && exit 1)
+    [[ $KERNEL_INSTALL_MODULES == 'yes' ]] && $ELEVATOR make $KERNEL_BUILD_OPTS modules_install \
+        #|| (echo -e "Probably not in a kernel source directory! Try 'kernel cd <VERSION>' or 'kernel configure <VERSION>'\nVER: $1\nPWD: $(pwd)" && exit 1)
 
     echo
     echo "Installing headers..."
-    [[ $KERNEL_INSTALL_HEADERS == 'yes' ]] && $ELEVATOR silent_run make $KERNEL_BUILD_OPTS headers_install \
-        || (echo -e "Probably not in a kernel source directory! Try 'kernel cd <VERSION>' or 'kernel configure <VERSION>'\nVER: $1\nPWD: $(pwd)" && exit 1)
+    [[ $KERNEL_INSTALL_HEADERS == 'yes' ]] && $ELEVATOR make $KERNEL_BUILD_OPTS headers_install \
+        #|| (echo -e "Probably not in a kernel source directory! Try 'kernel cd <VERSION>' or 'kernel configure <VERSION>'\nVER: $1\nPWD: $(pwd)" && exit 1)
 
     echo
     echo "Installation of kernel done!"

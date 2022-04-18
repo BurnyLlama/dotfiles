@@ -134,6 +134,7 @@ alias equ='equery uses'
 # xbps
 alias xq='xbps-query'
 alias xi='doas xbps-install'
+alias xr='doas xbps-remove'
 
 # Clear the swap from junk:
 alias swap-clear="sudo swapoff /dev/sda1 && sudo swapon /dev/sda1"
