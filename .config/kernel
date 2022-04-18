@@ -1,0 +1,5 @@
+#!/bin/bash
+
+KERNEL_BUILD_OPTS="-j$(nproc) INSTALL_PATH=/boot/EFI/void/"
+KERNEL_ESP_DIR="/boot/EFI/void"
+KERNEL_DRACUT_FLAGS="-f -H"

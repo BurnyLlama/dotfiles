@@ -3,9 +3,16 @@
 # Default options
 KERNEL_DIR="$HOME/Development/Linux"
 KERNEL_BUILD_OPTS="-j$(nproc)"
+KERNEL_ESP_DIR="/boot"
+KERNEL_ARCH="x86_64"
+
+KERNEL_DRACUT_FLAGS="-f"
+KERNEL_MKINITCPIO_FLAGS=""
+
 KERNEL_INSTALL_KERNEL=yes
 KERNEL_INSTALL_MODULES=yes
 KERNEL_INSTALL_HEADERS=yes
+KERNEL_INSTALL_INITRD=yes
 
 # Load user defined options...
 [[ -f $HOME/.config/kernel ]] && source $HOME/.config/kernel
@@ -61,27 +68,33 @@ function kernel_download {
 }
 
 function kernel_cd {
+    VERSION=$1
+
     # Execing $SHELL just gives the user a shell in $KERNEL_DIR
-    if [ -z $1 ]; then
+    if [ -z $VERSION ]; then
         exec $SHELL
     else
-        quiet_run cd "linux-$1" || (echo "Kernel version '$1' does not exist! Try 'kernel download $1'..." && exit 1)
+        quiet_run cd "linux-$VERSION" || (echo "Kernel version '$VERSION' does not exist! Try 'kernel download $VERSION'..." && exit 1)
         exec $SHELL
     fi
 }
 
 function kernel_switch_dir {
-    if [ -z $1 ]; then
+    VERSION=$1
+
+    if [ -z $VERSION ]; then
         cd $BEFORE_DIR
     else
-        quiet_run cd "linux-$1" || (echo "Kernel version '$1' does not exist! Try 'kernel download $1'..." && exit 1)
+        quiet_run cd "linux-$VERSION" || (echo "Kernel version '$VERSION' does not exist! Try 'kernel download $VERSION'..." && exit 1)
     fi
 }
 
 function kernel_configure {
-    kernel_switch_dir $1
+    VERSION=$1
 
-    silent_run make nconfig || echo -e "Probably not in a kernel source directory! Try 'kernel cd <VERSION>' or 'kernel configure <VERSION>'\nVER: $1\nPWD: $(pwd)" && exit 1
+    kernel_switch_dir $VERSION
+
+    silent_run make nconfig || echo -e "Probably not in a kernel source directory! Try 'kernel cd <VERSION>' or 'kernel configure <VERSION>'\nVER: $VERSION\nPWD: $(pwd)" && exit 1
 }
 
 function kernel_build {
@@ -105,15 +118,44 @@ function kernel_build {
     echo "Kernel fully built! (Not installed; install via 'kernel install'...)"
 }
 
-function kernel_install {
-    kernel_switch_dir $1
+function kernel_install_to_esp {
+    VERSION=$1
+    ELEVATOR=$2
 
+    echo "Installing kernel image..."
+    $ELEVATOR cp "arch/$KERNEL_ARCH/boot/bzImage" "$KERNEL_ESP_DIR/vmlinuz-$VERSION"
+
+    echo "Installing system map..."
+    $ELEVATOR cp "System.map" "$KERNEL_ESP_DIR/System.map-$VERSION"
+
+    echo "Installing config..."
+    $ELEVATOR cp ".config" "$KERNEL_ESP_DIR/config-$VERSION"
+}
+
+function kernel_install_create_initrd {
+    VERSION=$1
+    ELEVATOR=$2
+
+    quiet_run command -v mkinitcpio && INITRD_TOOL="mkinitcpio -g '$KERNEL_ESP_DIR/initramfs-$VERSION.img' -k '$KERNEL_ESP_DIR/vmlinuz-$VERSION'"
+    quiet_run command -v dracut     && INITRD_TOOL="dracut --kernel-image '$KERNEL_ESP_DIR/vmlinuz-$VERSION' '$KERNEL_ESP_DIR/initramfs-$VERSION.img'"
+    [[ -z $INITRD_TOOL ]] && echo "Couldn't find any tool to create an initrd/initramfs! Please install mkinitcpio or dracut..." && exit 2
+
+    echo "Installing initrd/initramfs..."
+    $ELEVATOR $INITRD_TOOL
+}
+
+function kernel_install {
+    VERSION=$1
+
+    kernel_switch_dir $VERSION
 
     echo "This will be installed:"
-    echo "KERNEL:  $([[ $KERNEL_INSTALL_KERNEL  == 'yes' ]] && printf 'YES' && printf " (Installing to: $KERNEL_INSTALL_PATH)" || printf 'NO')"
+    echo "KERNEL:  $([[ $KERNEL_INSTALL_KERNEL  == 'yes' ]] && printf 'YES' || printf 'NO')"
     echo "MODULES: $([[ $KERNEL_INSTALL_MODULES == 'yes' ]] && printf 'YES' || printf 'NO')"
     echo "HEADERS: $([[ $KERNEL_INSTALL_HEADERS == 'yes' ]] && printf 'YES' || printf 'NO')"
+    echo "INITRD:  $([[ $KERNEL_INSTALL_INITRD  == 'yes' ]] && printf 'YES' || printf 'NO')"
     echo
+    echo "Installing kernel and initrd to:   '$KERNEL_ESP_DIR'"
     echo "These are your make/build options: '$KERNEL_BUILD_OPTS'"
 
     echo
@@ -125,27 +167,26 @@ function kernel_install {
     quiet_run command -v doas && ELEVATOR="doas"
     [[ `id -u` -eq 0 ]]       && ELEVATOR=" "
 
-    [[ -z $ELEVATOR ]] && echo "Couldn't find any tool to elevate privileges and you are not root! (Please install sudo or doas...)"
+    [[ -z $ELEVATOR ]] && echo "Couldn't find any tool to elevate privileges and you are not root! (Please install sudo or doas...)" && exit 2
     echo "You might be prompted for your sudo/doas password, this is to get privileges to install the components above..."
     echo
 
     echo "Installing kernel..."
-    [[ $KERNEL_INSTALL_KERNEL  == 'yes' ]] && $ELEVATOR make $KERNEL_BUILD_OPTS install         \
-        #|| (echo -e "Probably not in a kernel source directory! Try 'kernel cd <VERSION>' or 'kernel configure <VERSION>'\nVER: $1\nPWD: $(pwd)" && exit 1)
+    [[ $KERNEL_INSTALL_KERNEL  == 'yes' ]] && kernel_install_to_esp $VERSION $ELEVATOR
 
     echo
     echo "Installing modules..."
-    [[ $KERNEL_INSTALL_MODULES == 'yes' ]] && $ELEVATOR make $KERNEL_BUILD_OPTS modules_install \
-        #|| (echo -e "Probably not in a kernel source directory! Try 'kernel cd <VERSION>' or 'kernel configure <VERSION>'\nVER: $1\nPWD: $(pwd)" && exit 1)
+    [[ $KERNEL_INSTALL_MODULES == 'yes' ]] && $ELEVATOR make $KERNEL_BUILD_OPTS modules_install
 
     echo
     echo "Installing headers..."
-    [[ $KERNEL_INSTALL_HEADERS == 'yes' ]] && $ELEVATOR make $KERNEL_BUILD_OPTS headers_install \
-        #|| (echo -e "Probably not in a kernel source directory! Try 'kernel cd <VERSION>' or 'kernel configure <VERSION>'\nVER: $1\nPWD: $(pwd)" && exit 1)
+    [[ $KERNEL_INSTALL_HEADERS == 'yes' ]] && $ELEVATOR make $KERNEL_BUILD_OPTS headers_install
+
+    echo
+    [[ $KERNEL_INSTALL_INITRD  == 'yes' ]] && kernel_install_create_initrd $VERSION $ELEVATOR
 
     echo
     echo "Installation of kernel done!"
-    echo "Depending on your system configuration you might want to make an initrd..."
 }
 
 
