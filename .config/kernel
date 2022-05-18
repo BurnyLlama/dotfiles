@@ -1,5 +1,5 @@
 #!/bin/bash
 
-KERNEL_BUILD_OPTS="-j$(nproc) INSTALL_PATH=/boot/EFI/void/"
+KERNEL_BUILD_OPTS="-j$(nproc) CC=clang LLVM=1"
 KERNEL_ESP_DIR="/boot/EFI/void"
-KERNEL_DRACUT_FLAGS="-f -H"
+KERNEL_DRACUT_FLAGS="-f -H --zstd --no-kernel --early-microcode"

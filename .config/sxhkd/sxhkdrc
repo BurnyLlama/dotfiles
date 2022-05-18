@@ -120,7 +120,7 @@ super + c
 
 # Emoji
 super + period
-    rofi -modi "emoji:rofimoji --action copy" -show emoji -no-show-icons
+    rofi -modi emoji -show emoji -no-show-icons
 
 # Kaomoji
 super + shift + period

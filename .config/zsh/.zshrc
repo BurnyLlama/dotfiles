@@ -163,8 +163,8 @@ stty stop undef # Disable terminal freeze on ctrl-s
 # Go forward/backword one word. (CTRL + < and/or CTRL + >)
 bindkey "^[[1;5C"   forward-word
 bindkey "^[[1;5D"   backward-word
-bindkey '^[OA'      history-substring-search-up
-bindkey '^[OB'      history-substring-search-down
+#bindkey '^[OA'      history-substring-search-up
+#bindkey '^[OB'      history-substring-search-down
 
 # [del], [home], and [end] working:
 bindkey "${terminfo[khome]}"    beginning-of-line
@@ -200,7 +200,7 @@ export RUSTC_WRAPPER="sccache"
 
 ### PLUGINS ###
 # Auto suggestions; very pleasant.
-source /data/zsh/zsh-history-substring-search.zsh
+#source /data/zsh/zsh-history-substring-search.zsh
 source /data/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Load syntax highlighting in the end!
@@ -209,7 +209,6 @@ source /data/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 if [[ -d /run/host ]]; then
     echo -e "\n\e[31m\e[1mIn a distrobox-container... Ignore previous sourcing errors... Sourcing properly!\n\n"
     source /run/host/data/zsh/qwik.zsh-theme
-    source /run/host/data/zsh/zsh-history-substring-search.zsh
     source /run/host/data/zsh/zsh-history-substring-search.zsh
     source /run/host/data/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 

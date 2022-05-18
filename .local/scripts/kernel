@@ -136,11 +136,12 @@ function kernel_install_create_initrd {
     VERSION=$1
     ELEVATOR=$2
 
-    quiet_run command -v mkinitcpio && INITRD_TOOL="mkinitcpio -g '$KERNEL_ESP_DIR/initramfs-$VERSION.img' -k '$KERNEL_ESP_DIR/vmlinuz-$VERSION'"
-    quiet_run command -v dracut     && INITRD_TOOL="dracut --kernel-image '$KERNEL_ESP_DIR/vmlinuz-$VERSION' '$KERNEL_ESP_DIR/initramfs-$VERSION.img'"
+    quiet_run command -v mkinitcpio && INITRD_TOOL="mkinitcpio -g '$KERNEL_ESP_DIR/initramfs-$VERSION.img' $KERNEL_MKINITCPIO_FLAGS -k '$KERNEL_ESP_DIR/vmlinuz-$VERSION'"
+    quiet_run command -v dracut     && INITRD_TOOL="dracut --kernel-image '$KERNEL_ESP_DIR/vmlinuz-$VERSION' $KERNEL_DRACUT_FLAGS '$KERNEL_ESP_DIR/initramfs-$VERSION.img'"
     [[ -z $INITRD_TOOL ]] && echo "Couldn't find any tool to create an initrd/initramfs! Please install mkinitcpio or dracut..." && exit 2
 
     echo "Installing initrd/initramfs..."
+    echo "Running: $ELEVATOR $INITRD_TOOL"
     $ELEVATOR $INITRD_TOOL
 }
 
