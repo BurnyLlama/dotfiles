@@ -50,7 +50,7 @@ xrandr --rate 75
 
 
 # Locking
-light-locker --display=:0 --no-late-locking &
+light-locker --display=:0 --no-late-locking --no-idle-hint &
 
 
 

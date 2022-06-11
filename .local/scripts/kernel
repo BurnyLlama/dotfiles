@@ -47,13 +47,14 @@ function kernel_download {
     [[ -d "linux-$VERSION" ]] && echo "Already downloaded..." && cd "linux-$VERSION" && exec $SHELL
 
     # Get downloader...
-    quiet_run command -v curl   && DOWNLOADER="curl -o \"$FILENAME\""
-    quiet_run command -v wget   && DOWNLOADER="wget -O \"$FILENAME\""
-    quiet_run command -v aria2c && DOWNLOADER="aria2c -x 16 -j 16 -s 16 -o \"$FILENAME\"" 
+    quiet_run command -v curl   && DOWNLOADER="curl -o $FILENAME"
+    quiet_run command -v wget   && DOWNLOADER="wget -O $FILENAME"
+    quiet_run command -v aria2c && DOWNLOADER="aria2c -x 16 -j 16 -s 16 -o $FILENAME"
     [[ -z $DOWNLOADER ]] && echo "Found no program to use to download the kernel! (Please install 'aria2c', 'curl', or 'wget'.)" && exit 1
 
     echo "Downloading kernel sources tarball..."
-    silent_run $DOWNLOADER "$VERSION" || echo -e "Download failed! Maybe the the kernel version specified doesn't exist?\nVER: $VERSION\nURL: $DL_URL" && exit 1
+    silent_run $DOWNLOADER "$DL_URL" || echo -e "Download failed! Maybe the the kernel version specified doesn't exist?\nVER: $VERSION\nURL: $DL_URL"
+    silent_run $DOWNLOADER "$DL_URL" || exit 1
     echo "Download done!"
 
     echo "Extracting kernel sources tarball..."
