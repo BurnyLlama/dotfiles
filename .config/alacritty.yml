@@ -16,7 +16,7 @@ font:
   bold: 
     family: FiraCode Nerd Font
     style: Medium
-  size: 11.0
+  size: 9.5
   ligatures: true
 
 render_timer: true

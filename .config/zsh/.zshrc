@@ -1,9 +1,16 @@
 ### VARIABLES ###
 export PATH="${PATH}:${HOME}/.local/scripts:${HOME}/.local/bin:/home/fabbe/.cargo/bin"
+fpath=( ~/.config/zsh/zfunc "${fpath[@]}" )
+
+# pnpm
+export PNPM_HOME="/home/fabbe/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
+
 #export LANG="en_GB.UTF-8"
 
 # A character to place at the end of a line if the line doesn't end with '\n'
-export PROMPT_EOL_MARK="\n"
+export PROMPT_EOL_MARK=""
 
 # Say how long a command took, if it took more than 3 seconds
 export REPORTTIME=3
@@ -83,6 +90,9 @@ autoload zed
 # Dotfile bullshit...
 alias dotfile='/usr/bin/git --git-dir=$HOME/.local/dotfiles --work-tree=$HOME'
 alias .f='dotfile'
+
+# See kernel logs with color and all...
+alias kernel-logs="doas dmesg --color=always | less -R"
 
 # Editor
 alias edit="nvim"
@@ -195,8 +205,10 @@ fi
 ### SCCACHE
 export SCCACHE_DIR="/data/sccache" 
 export SCCACHE_CACHE_SIZE="10G"
-# Use for Rust
+
+# RUST
 export RUSTC_WRAPPER="sccache"
+#export RUSTFLAGS="-C target-feature=-crt-static" # Fixes dylibs or some bullshit for musl...
 
 ### PLUGINS ###
 # Auto suggestions; very pleasant.

@@ -5,6 +5,7 @@
 sxhkd &
 nm-applet &
 gnome-keyring-daemon &
+pulseaudio --start
 
 
 
@@ -32,7 +33,7 @@ xsetroot -cursor_name left_ptr
 
 # Wacom Pad - Pan with Button 2
 xsetwacom --set "Wacom Intuos BT S Pen stylus" Button 2 "pan"
-xsetwacom --set "Wacom Intuos BT S Pen stylus" "PanScrollThreshold" 200
+xsetwacom --set "Wacom Intuos BT S Pen stylus" "PanScrollThreshold" 75
 xsetwacom --set "Wacom Intuos BT S Pad pad" Button 1 "key super ctrl shift i"
 
 
@@ -60,7 +61,7 @@ bspc monitor -d Home Code Art Chat Terminal Sound 6 Games Files Stats
 
 
 # Windows
-bspc config border_width 0
+bspc config border_width 1
 bspc config normal_border_color  "#10102F"
 bspc config focused_border_color "#EE588F"
 bspc config active_border_color  "#EE588F"
