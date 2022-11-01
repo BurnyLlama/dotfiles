@@ -36,6 +36,9 @@ $MOD + Shift + R
 
 $MOD + Shift + E
     exit
+# Lock screen
+$MOD + L
+    spawn "gtklock"
 
 
 
@@ -59,12 +62,6 @@ $MOD + Up
     focus-view previous
 
 # Resizing main
-!$MOD + H
-    send-layout-cmd rivertile "main-ratio -0.003"
-
-!$MOD + L
-    send-layout-cmd rivertile "main-ratio +0.003"
-
 !$MOD + Left
     send-layout-cmd rivertile "main-ratio -0.003"
 

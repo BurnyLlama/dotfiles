@@ -30,6 +30,12 @@ syncthing &
 owncloud &
 pkill waybar; waybar &
 
+# Start pipewire if not already started.
+[[ -z "$(pgrep pipewire)" ]] && gentoo-pipewire-launcher &
+
+# Nice tag overlay
+river-tag-overlay --border-width 1 --background-colour 0x10102F --border-colour 0x20203F --square-active-background-colour 0x3DDF89 --square-active-border-colour 0x3DDF89 --square-active-occupied-colour 0xA9F4CC --square-inactive-background-colour 0x40405F --square-inactive-border-colour 0x40405F --square-inactive-occupied-colour 0x60607F --square-urgent-background-colour 0xEF5255 --square-urgent-border-colour 0xEF5255 --square-urgent-occupied-colour 0xFA999A --timeout 400 &
+
 
 
 # Set up tags. (This isn't really doable with river-binder)
