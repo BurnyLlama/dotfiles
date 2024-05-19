@@ -261,6 +261,14 @@ eval "$(fzf --zsh)"
 
 
 ### PLUGINS ###
+# Notify when long-running commands finnish
+export AUTO_NOTIFY_THRESHOLD=20
+export AUTO_NOTIFY_TITLE="Command finished!"
+export AUTO_NOTIFY_BODY="'%command' took %elapsed seconds and exited with code %exit_code"
+export AUTO_NOTIFY_IGNORE=("vim" "nvim" "man" "sleep" "wl-paste")
+export AUTO_NOTIFY_ICON_SUCCESS=emblem-success
+export AUTO_NOTIFY_ICON_FAILURE=emblem-error
+source ${ZDOTDIR}/zsh-auto-notify/auto-notify.plugin.zsh
 # Fuzzy finder menu
 source ${ZDOTDIR}/fzf-tab/fzf-tab.plugin.zsh
 # Auto suggestions; very pleasant.
