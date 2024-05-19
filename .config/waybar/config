@@ -23,15 +23,15 @@
         "all-outputs": true,
         "format": "{name}: {icon}",
         "tag-labels": [
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
+            "󰈹",
+            "󰀜",
+            "󰲶",
+            "󰍡",
+            "󱆃",
+            "󰎇",
+            "󰒍",
+            "󰸹",
+            "󰉋"
         ]
     },
     "hyprland/workspaces": {
@@ -40,15 +40,15 @@
         "on-scroll-up": "hyprctl dispatch workspace e-1",
         "on-scroll-down": "hyprctl dispatch workspace e+1",
         "format-icons": {
-            "1": "",
-            "2": "",
-            "3": "",
-            "4": "",
-            "5": "",
-            "6": "",
-            "7": "",
-            "8": "",
-            "9": "",
+            "1": "󰈹",
+            "2": "󰀜",
+            "3": "󰲶",
+            "4": "󰍡",
+            "5": "󱆃",
+            "6": "󰎇",
+            "7": "󰒍",
+            "8": "󰸹",
+            "9": "󰉋",
             "default": ""
         },
         "persistent_workspaces": {
@@ -56,7 +56,7 @@
         },
         "sort-by-number": true
     },
-    "hyprand/windw": {
+    "hyprland/window": {
         "max-length": 128,
         "separate-outputs": true
     },
@@ -66,46 +66,49 @@
         "show-passive-items": true
     },
     "clock": {
-        "format": " {:%H:%M:%S      %d %b %Y}",
+        "format": "󰥔 {:%H:%M:%S    󰃭  %d %b %Y}",
         "interval": 1,
         // "timezone": "America/New_York",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "  {:%A %d %B %Y}"
+        "format-alt": "󰃭  {:%A %d %B %Y}"
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "  {signalStrength}%",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
+        "format-wifi": "󰖩  {signalStrength}%",
+        "format-ethernet": "{ipaddr}/{cidr} 󰈀",
+        "tooltip-format": "{ifname} via {gwaddr} 󰈀",
+        "format-linked": "{ifname} (No IP) 󰈀",
+        "format-disconnected": "Disconnected 󰌙",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
     "mpris": {
         "format": "{status_icon} {dynamic}",
-        "format-paused": "{status_icon} <i>{dynamic}</i>",
+        "format-paused": "{status_icon} {dynamic}",
         "dynamic-len": 128,
         "player-icons": {
-            "default": "🎵"
+            "default": "󰎇"
         },
         "status-icons": {
-            "playing": "",
-            "paused": "",
-            "stopped": ""
+            "playing": "󰐌",
+            "paused": "󰏥",
+            "stopped": "󰙦"
         }
     },
     "pulseaudio": {
         "scroll-step": 5, // %, can be a float
         "format": "{icon}  {volume}%",
-        "format-muted": "ﱝ",
+        "format-muted": "󰝟",
         "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
+            "headphone": "󰋋",
+            "hands-free": "󰋎",
+            "headset": "󰋎",
+            "phone": "",
+            "portable": "󰓃",
+            "car": "󰄋",
             "default": [
-                "奄",
-                "奔",
-                "墳"
+                "󰕿",
+                "󰖀",
+                "󰕾"
             ]
         },
         "on-click": "pavucontrol"

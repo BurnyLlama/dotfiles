@@ -29,6 +29,9 @@ riverctl spawn "gnome-keyring-daemon"
 riverctl spawn "swaync" # Notifications
 syncthing &
 pkill waybar; riverctl spawn "waybar"
+# Clipboard manager
+wl-paste --watch bash -c "xargs -0 -I{} clapboard store {}" &
+wl-paste -p --watch bash -c "xargs -0 -I{} clapboard store {}" &
 
 # Start pipewire if not already started.
 pkill pipewire; gentoo-pipewire-launcher &

@@ -20,6 +20,9 @@ $MOD + Space
 $MOD + C
     spawn "rofi -show calc -modi calc"
 
+$MOD + V
+    spawn "clapboard"
+
 $MOD + E
     spawn "vscodium"
 
@@ -190,6 +193,9 @@ $MOD + S
 
 $MOD + Shift + S
     spawn "way-screenshot area"
+
+$MOD + Control + S
+    spawn "hyprpicker -a"
 
 
 
