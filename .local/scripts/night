@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [[ -f /tmp/night_mode ]] ; then
+    redshift -x
+    rm /tmp/night_mode
+    exit
+fi
+
+redshift -O 2500
+touch /tmp/night_mode
+
+exit

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [[ -f "/tmp/scrollToSpace" ]]; then
+    xsetwacom --set "Wacom Intuos BT S Pen stylus" Button 2 "pan"    
+    rm /tmp/scrollToSpace
+else
+    xsetwacom --set "Wacom Intuos BT S Pen stylus" Button 2 "key +space"
+    touch /tmp/scrollToSpace
+fi
+

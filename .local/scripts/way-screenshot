@@ -1,0 +1,17 @@
+#!/bin/bash
+
+case $1 in
+    "screen")
+        wayshot --stdout | satty -f -
+    ;;
+
+    "area")
+        wayshot -s "$(slurp -o -f '%x %y %w %h')" --stdout | satty -f -
+    ;;
+
+    *)
+        echo "Wrong option! Use: area or screen"
+    ;;
+esac
+
+notify-send -a Screenshot -i gnome-screenshot-symbolic "Screenshot taken and copied to clipboard."

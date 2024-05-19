@@ -1,0 +1,227 @@
+# My keybinds :D
+#
+# Valid commands are any command used in riverctl.
+# This is basically just a wrapper for `riverctl map <MOD_KEYS> <KEY> <COMMAND> [...ARGS]
+# 
+
+= MOD Super
+
+
+
+# 
+# Spawing utilities
+#
+$MOD + Return
+    spawn "alacritty"
+
+$MOD + Space
+    spawn "rofi -show drun -modi drun"
+
+$MOD + C
+    spawn "rofi -show calc -modi calc"
+
+$MOD + E
+    spawn "vscodium"
+
+$MOD + Period
+    spawn "rofimoji --clipboarder wl-copy --typer wtype --action copy --selector rofi"
+
+
+
+#
+# WM Shit
+#
+$MOD + Shift + R
+    spawn "exec ~/.config/river/init"
+
+$MOD + Shift + E
+    exit
+# Lock screen
+$MOD + L
+    spawn "waylock -fork-on-lock -init-color 0x00001F -input-color 0x967CF4 -fail-color 0xEF5255"
+
+
+
+#
+# Tiling window managment
+#
+$MOD + Shift + Q
+    close
+
+# Move around
+$MOD + J
+    focus-view next
+
+$MOD + K
+    focus-view previous
+
+$MOD + Down
+    focus-view next
+
+$MOD + Up
+    focus-view previous
+
+# Resizing main
+!$MOD + Left
+    send-layout-cmd rivertile "main-ratio -0.003"
+
+!$MOD + Right
+    send-layout-cmd rivertile "main-ratio +0.003"
+
+# Main window count
+$MOD + Shift + Plus
+    send-layout-cmd rivertile "main-count +1"
+
+$MOD + Shift + Minus
+    send-layout-cmd rivertile "main-count -1"
+
+# Swapping windows
+$MOD + Shift + J
+    swap next
+
+$MOD + Shift + K
+    swap previous
+
+$MOD + Shift + Down
+    swap next
+
+$MOD + Shift + Up
+    swap previous
+
+# Put focused window at top.
+$MOD + Shift + Return
+    zoom
+
+# Toggle fullscreen
+$MOD + Shift + F
+    toggle-fullscreen
+
+
+
+#
+# Floting window managment
+#
+$MOD + F
+    toggle-float
+
+# Moving windows
+!Super + Alt + H
+    move left 5
+
+!Super + Alt + J
+    move down 5
+
+!Super + Alt + K
+    move up 5
+
+!Super + Alt + L
+    move right 5
+
+!Super + Alt + Left
+    move left 5
+
+!Super + Alt + Down
+    move down 5
+
+!Super + Alt + Up
+    move up 5
+
+!Super + Alt + Right
+    move right 5
+
+# Resizing windows
+!Super + Alt + Control + H
+    resize horizontal -5
+
+!Super + Alt + Control + J
+    resize vertical 5
+
+!Super + Alt + Control + K
+    resize vertical -5
+
+!Super + Alt + Control + L
+    resize horizontal 5
+
+!Super + Alt + Control + Left
+    resize horizontal -5
+
+!Super + Alt + Control + Down
+    resize vertical 5
+
+!Super + Alt + Control + Up
+    resize vertical -5
+
+!Super + Alt + Control + Right
+    resize horizontal 5
+
+# Snapping
+$MOD + Control + H
+    snap left
+
+$MOD + Control + J
+    snap down
+
+$MOD + Control + K
+    snap up
+
+$MOD + Control + L
+    snap right
+
+$MOD + Control + Left
+    snap left
+
+$MOD + Control + Down
+    snap down
+
+$MOD + Control + Up
+    snap up
+
+$MOD + Control + Right
+    snap right
+
+
+
+
+#
+# Screenshots
+#
+$MOD + S
+    spawn "way-screenshot screen"
+
+$MOD + Shift + S
+    spawn "way-screenshot area"
+
+
+
+#
+# Notifications
+#
+$MOD + N
+    spawn "swaync-client -t"
+
+
+
+
+#
+# Sound :D
+#
+XF86AudioNext
+    spawn "sat next"
+
+XF86AudioPrev
+    spawn "sat prev"
+
+XF86AudioPlay
+    spawn "sat pause"
+
+!XF86AudioRaiseVolume
+    spawn "sat up"
+
+!XF86AudioLowerVolume
+    spawn "sat down"
+
+XF86AudioMute
+    spawn "sat mute"
+
+$MOD + I
+    spawn "sat media-info"

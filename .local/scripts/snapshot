@@ -1,0 +1,22 @@
+#!/bin/bash
+
+/bin/echo "Remember to run as root!"
+
+/bin/echo "Deleting old snapshots..."
+/sbin/btrfs property set /.snapshots/*home ro false
+/sbin/btrfs property set /.snapshots/*system ro false
+/sbin/btrfs property set /.snapshots/*virt ro false
+/sbin/btrfs property set /data/.snapshots/*virt_data ro false
+/sbin/btrfs property set /data/.snapshots/*Development ro false
+/bin/rm -rf /.snapshots/*
+/bin/rm -rf /data/.snapshots/*
+
+/bin/echo "Creating new snapshots..."
+/sbin/btrfs subvolume snapshot -r / "/.snapshots/$(date +"%Y-%m-%d")-system"
+/sbin/btrfs subvolume snapshot -r /home "/.snapshots/$(date +"%Y-%m-%d")-home"
+/sbin/btrfs subvolume snapshot -r /virt "/.snapshots/$(date +"%Y-%m-%d")-virt"
+/sbin/btrfs subvolume snapshot -r /data/virt_data "/data/.snapshots/$(date +"%Y-%m-%d")-virt_data"
+/sbin/btrfs subvolume snapshot -r /data/Development "/data/.snapshots/$(date +"%Y-%m-%d")-Development"
+
+/bin/echo "Done!"
+

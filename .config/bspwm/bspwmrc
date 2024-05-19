@@ -1,0 +1,79 @@
+#! /bin/sh
+
+# Functionality
+sxhkd &
+nm-applet &
+gnome-keyring-daemon &
+pulseaudio --start
+
+
+
+# UI/Utilities
+picom -b
+nitrogen --restore
+pkill polybar ; polybar top &
+syncthing &
+owncloud &
+
+
+
+# Notifications 
+deadd-notification-center &
+notify-send.py --replaces-process "Media Info" -a "Media Info" -i audio -t 4000 "No media" "There's currently no media recognized by SAT." &
+
+
+
+# Xorg
+setxkbmap -option compose:rctrl se
+xsettingsd &
+xsetroot -cursor_name left_ptr
+
+
+
+# Wacom Pad - Pan with Button 2
+xsetwacom --set "Wacom Intuos BT S Pen stylus" Button 2 "pan"
+xsetwacom --set "Wacom Intuos BT S Pen stylus" "PanScrollThreshold" 75
+xsetwacom --set "Wacom Intuos BT S Pad pad" Button 1 "key super ctrl shift i"
+
+
+
+# Scratchpad
+bspc rule -a Alacritty:scratchpad sticky=on state=floating hidden=on
+alacritty --config-file=${HOME}/.config/alacritty-scratch.yml --class scratchpad --command "$SHELL" &
+
+
+
+
+# Refresh rate
+xrandr --rate 75
+
+
+
+# Locking
+light-locker --display=:0 --no-late-locking --no-idle-hint &
+
+
+
+# Workspaces
+bspc monitor -d Home Code Art Chat Terminal Sound 6 Games Files Stats
+
+
+
+# Windows
+bspc config border_width 1
+bspc config normal_border_color  "#10102F"
+bspc config focused_border_color "#EE588F"
+bspc config active_border_color  "#EE588F"
+
+bspc config window_gap 16
+bspc config focus_follows_pointer true
+bspc config split_ratio 0.5
+
+
+
+# Padding
+export PADDING=2
+bspc config top_padding 32
+bspc config right_padding $PADDING
+bspc config bottom_padding $PADDING
+bspc config left_padding $PADDING

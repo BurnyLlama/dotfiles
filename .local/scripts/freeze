@@ -1,0 +1,34 @@
+#!/bin/bash
+
+[[ `id -u` -ne 0 ]] && echo "Run as root!" && exit
+
+# Threads after the 0th
+THREADS=$(nproc --all)
+ODD_THREADS=$(seq 1 2 $THREADS)
+cpupower=/usr/bin/cpupower
+
+echo $THREADS - $ODD_THREADS
+
+case $1 in
+    "on")
+        $cpupower frequency-set -g powersave
+        for core in $ODD_THREADS; do
+            echo 0 | tee "/sys/devices/system/cpu/cpu${core}/online"
+        done
+    ;;
+
+    "off")
+        for core in $ODD_THREADS; do
+            echo "Turning on thread $core"
+            echo 1 | tee "/sys/devices/system/cpu/cpu${core}/online"
+        done
+        $cpupower frequency-set -g conservative
+    ;;
+
+    *)
+        echo "Need an argument: on | off"
+        echo "on:  Turns freeze on."
+        echo "off: Turns freeze off."
+        exit
+    ;;
+esac

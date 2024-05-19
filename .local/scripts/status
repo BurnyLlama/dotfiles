@@ -1,0 +1,73 @@
+#!/bin/sh
+# Volume
+VOL_ICON="ﱝ"
+VOL_LVL="$(pulsemixer --get-volume | awk '{print $1}')"
+if [ "[on]" == "$(amixer sget Master | grep "Mono" | awk '{print $6}' | grep "on")" ];then
+    [ "$VOL_LVL" -gt 0 ] && VOL_ICON="奄"
+    [ "$VOL_LVL" -gt 30 ] && VOL_ICON="奔"
+    [ "$VOL_LVL" -gt 60 ] && VOL_ICON="墳"
+    [ "$VOL_LVL" -gt 100 ] && VOL_ICON="ﱛ"
+fi
+VOL="$VOL_ICON ${VOL_LVL}%"
+
+# Time
+TIME_12="$(date +%I:%M:%S)"
+TIME_24="$(date +%H:%M:%S)"
+HOUR="$(date +%I)"
+[ "$HOUR" == "00" ] && TIME_ICON=""
+[ "$HOUR" == "01" ] && TIME_ICON=""
+[ "$HOUR" == "00" ] && TIME_ICON=""
+[ "$HOUR" == "02" ] && TIME_ICON=""
+[ "$HOUR" == "03" ] && TIME_ICON=""
+[ "$HOUR" == "04" ] && TIME_ICON=""
+[ "$HOUR" == "05" ] && TIME_ICON=""
+[ "$HOUR" == "06" ] && TIME_ICON=""
+[ "$HOUR" == "07" ] && TIME_ICON=""
+[ "$HOUR" == "08" ] && TIME_ICON=""
+[ "$HOUR" == "09" ] && TIME_ICON=""
+[ "$HOUR" == "10" ] && TIME_ICON=""
+[ "$HOUR" == "11" ] && TIME_ICON=""
+[ "$HOUR" == "12" ] && TIME_ICON=""
+TIME="$TIME_ICON  $TIME_12"
+
+BAT_CAP="$(cat /sys/class/power_supply/BAT0/capacity)"
+BAT_ICON=""
+[ "$BAT_CAP" -gt "10" ] && BAT_ICON=""
+[ "$BAT_CAP" -gt "20" ] && BAT_ICON=""
+[ "$BAT_CAP" -gt "30" ] && BAT_ICON=""
+[ "$BAT_CAP" -gt "40" ] && BAT_ICON=""
+[ "$BAT_CAP" -gt "50" ] && BAT_ICON=""
+[ "$BAT_CAP" -gt "60" ] && BAT_ICON=""
+[ "$BAT_CAP" -gt "70" ] && BAT_ICON=""
+[ "$BAT_CAP" -gt "80" ] && BAT_ICON=""
+[ "$BAT_CAP" -gt "90" ] && BAT_ICON=""
+[ "$BAT_CAP" -gt "95" ] && BAT_ICON=""
+[ "Charging" == "$(cat /sys/class/power_supply/BAT0/status)" ] && BAT_ICON=""
+if [ "Charging" == "$(cat /sys/class/power_supply/BAT0/status)" ];then
+    [ "$BAT_CAP" -gt "20" ] && BAT_ICON=" "
+    [ "$BAT_CAP" -gt "30" ] && BAT_ICON=" "
+    [ "$BAT_CAP" -gt "40" ] && BAT_ICON=" "
+    [ "$BAT_CAP" -gt "60" ] && BAT_ICON=" "
+    [ "$BAT_CAP" -gt "80" ] && BAT_ICON=" "
+    [ "$BAT_CAP" -gt "90" ] && BAT_ICON=" "
+fi
+[ "Unknown" == "$(cat /sys/class/power_supply/BAT0/status)" ] && BAT_ICON=""
+BAT="$BAT_ICON ${BAT_CAP}%"
+
+# WiFi
+WIFI_STAT="$(calc "floor($(calc $(iwconfig wlan0 | grep 'Link Quality=' | sed 's/Link Quality=//' | sed 's/\// /' | awk '{print $1}') / 0.7))" | sed 's/-//' | awk '{print $1}')"
+[ "received," == "$(ping -c 1 -s 8 gentoo.org | grep "1 received" | awk '{print $5}')" ] && WIFI_ICON="直  " || WIFI_ICON="睊  "
+WIFI="$WIFI_ICON ${WIFI_STAT}%"
+
+# CAPS Lock
+[ "on" == "$(xset q | grep "Caps" | awk '{print $4}')" ] && CAPS="ﰶ " || CAPS=""
+
+# NUM Lock
+[ "on" == "$(xset q | grep "Num" | awk '{print $8}')" ] && NUM=" " || NUM=""
+
+# Separator
+[ "$CAPS" == "" ] && [ "$NUM" == "" ] && SEP="" || SEP="  "
+
+# Actually set the STATUS
+STATUS="$CAPS $NUM $SEP $VOL  $BAT  $WIFI  $TIME"
+xsetroot -name "${STATUS}"

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+SCRIPT_DIR=$HOME/.local/scripts
+SCRIPT_NAME=$1
+
+[[ -d $SCRIPT_DIR ]] || mkdir -p "$SCRIPT_DIR"
+
+[[ -z $SCRIPT_NAME ]] && echo "No script name provided!" && exit 1
+
+echo "Creating a script named $SCRIPT_NAME..."
+
+touch "$SCRIPT_DIR/$SCRIPT_NAME"
+chmod +x "$SCRIPT_DIR/$SCRIPT_NAME"
+
+command -v nano &> /dev/null && EDIT=nano
+command -v vim  &> /dev/null && EDIT=vim
+command -v nvim &> /dev/null && EDIT=nvim
+
+[[ -z $EDIT ]] && echo "Found no editor, you have to edit '$SCRIPT_DIR/$SCRIPT_NAME' by yourself!" && exit 1
+
+$EDIT "$SCRIPT_DIR/$SCRIPT_NAME"
+

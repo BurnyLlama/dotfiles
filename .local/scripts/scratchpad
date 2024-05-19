@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+pids=$(xdotool search --classname scratchpad)
+
+if [ -z $pids ]; then
+	alacritty --config-file=${HOME}/.config/alacritty-scratch.yml --class scratchpad --command "$SHELL" &
+fi
+
+pids=$(xdotool search --classname scratchpad)
+for pid in $pids; do
+	bspc node $pid --flag hidden -f
+done

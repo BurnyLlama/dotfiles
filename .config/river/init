@@ -1,0 +1,86 @@
+#!/bin/env bash
+
+# Refesh rate
+wlr-randr --output HDMI-A-1 --mode 1920x1080@74.986000Hz
+
+# Theme
+riverctl background-color       0x10102F
+riverctl border-color-focused   0x3DDF89
+riverctl border-color-unfocused 0x40405F
+riverctl border-color-urgent    0xEF5255
+riverctl border-width           1
+riverctl xcursor-theme          Bibata-Modern-Ice 16
+
+# Wallpaper
+wbg ~/Media/Pictures/Wallpapers/qwik.png &
+
+
+
+# Behaviour
+riverctl attach-mode            bottom
+riverctl focus-follows-cursor   normal
+riverctl set-cursor-warp        on-output-change
+riverctl set-repeat             50 300
+
+
+
+# Auto starts
+riverctl spawn "gnome-keyring-daemon"
+riverctl spawn "swaync" # Notifications
+syncthing &
+pkill waybar; riverctl spawn "waybar"
+
+# Start pipewire if not already started.
+pkill pipewire; gentoo-pipewire-launcher &
+
+# Nice tag overlay
+river-tag-overlay --border-width 1 --background-colour 0x10102F --border-colour 0x20203F --square-active-background-colour 0x3DDF89 --square-active-border-colour 0x3DDF89 --square-active-occupied-colour 0xA9F4CC --square-inactive-background-colour 0x40405F --square-inactive-border-colour 0x40405F --square-inactive-occupied-colour 0x60607F --square-urgent-background-colour 0xEF5255 --square-urgent-border-colour 0xEF5255 --square-urgent-occupied-colour 0xFA999A --timeout 400 &
+
+
+
+# Set up tags. (This isn't really doable with river-binder)
+MOD=Super
+for i in $(seq 1 9); do
+    tags=$((1 << ($i - 1)))
+
+    # $MOD+[1-9] to focus tag [0-8]
+    riverctl map normal $MOD $i set-focused-tags $tags
+
+    # $MOD+Shift+[1-9] to tag focused view with tag [0-8]
+    riverctl map normal $MOD+Shift $i set-view-tags $tags
+
+    # $MOD+Ctrl+[1-9] to toggle focus of tag [0-8]
+    riverctl map normal $MOD+Control $i toggle-focused-tags $tags
+
+    # $MOD+Shift+Ctrl+[1-9] to toggle tag [0-8] of focused view
+    riverctl map normal $MOD+Shift+Control $i toggle-view-tags $tags
+done
+
+# $MOD+0 to focus all tags
+# $MOD+Shift+0 to tag focused view with all tags
+all_tags=$(((1 << 32) - 1))
+riverctl map normal $MOD 0 set-focused-tags $all_tags
+riverctl map normal $MOD+Shift 0 set-view-tags $all_tags
+
+
+
+# Load keybinds
+river-binder ~/.config/river/keybinds &
+
+
+
+# Mouse bindings
+riverctl map-pointer normal Super BTN_LEFT move-view
+riverctl map-pointer normal Super BTN_RIGHT resize-view
+
+
+
+# Spawn defaulr terminal...
+riverctl spawn alacritty
+
+
+
+# Default layouts
+riverctl default-layout rivertile
+exec rivertile -view-padding 8 -outer-padding 4
+

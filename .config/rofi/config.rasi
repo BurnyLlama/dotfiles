@@ -1,0 +1,5 @@
+configuration {
+	modi: "window,drun";
+}
+
+@theme "~/.local/share/rofi/themes/blue.rasi"

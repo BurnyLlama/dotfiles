@@ -1,0 +1,79 @@
+ #!/bin/bash
+
+# SAT is a: 
+# Simple
+# Audio
+# Tool
+
+# Dependencies:
+# pipewire or pulseaduio (pactl), playerctl, notify-send
+
+
+function get_volume {
+    pactl get-sink-volume 0 | grep -oP "\d+%" | sed 's/%//g' | head -n 1
+}
+
+function send_noti {
+    VOLUME=$(get_volume)
+    ICON="audio-volume-low"
+    [[ $((VOLUME)) -gt 29 ]] && ICON="audio-volume-medium"
+    [[ $((VOLUME)) -gt 59 ]] && ICON="audio-volume-high"
+    MUTED=$(pactl get-sink-mute 0 | grep -oP "no|yes")
+    [[ "$MUTED" == "yes" ]] && ICON="audio-volume-muted" || ICON="${ICON}"
+    [[ "$MUTED" == "yes" ]] && STATUS="Audio is muted." || STATUS="Volume: $(get_volume)%"
+
+    if [[ -f /tmp/sat_notification_vol_id ]]; then
+        notify-send -a '"Volume Info"' -t 3000 "Audio info" "$STATUS" -i $ICON -r $(cat /tmp/sat_notification_vol_id)
+    else
+        notify-send -a '"Volume Info"' -t 3000 "Audio info" "$STATUS" -i $ICON -p > /tmp/sat_notification_vol_id
+    fi
+}
+
+ACTION=$1
+case "$ACTION" in 
+    "up")
+        pactl set-sink-mute 0 false
+        pactl set-sink-volume 0 +5%
+        send_noti
+        ;;
+    "down")
+        pactl set-sink-mute 0 false
+        pactl set-sink-volume 0 -5%
+        send_noti
+        ;;
+     "mute")
+        pactl set-sink-mute 0 toggle
+        send_noti
+        ;;
+    "pause") 
+        playerctl play-pause
+        sat media-info
+        ;;
+    "next")
+        playerctl next
+        sat media-info
+        ;;
+    "prev")
+        playerctl previous
+        sat media-info
+        ;;
+    "media-info")
+        ICON="player_playing" || ICON="player_paused"
+        PLAYING=$(playerctl status)
+        [[ "$PLAYING" == "Playing" ]] && ICON="media-playback-playing" || ICON="media-playback-paused"
+        ARTIST=$(playerctl metadata xesam:artist)
+        TITLE=$(playerctl metadata xesam:title)
+        IMAGE_URL=$(playerctl metadata mpris:artUrl)
+        STATUS=" ${ARTIST}\n ${TITLE}"
+
+        if [[ -f /tmp/sat_notification_info_id ]]; then
+            notify-send -a "Media Info" -t 7000 "Currently playing" "$STATUS" --hint string:image-path:$IMAGE_URL -i $ICON -r $(cat /tmp/sat_notification_info_id)
+        else
+            notify-send -a "Media Info" -t 7000 "Currently playing" "$STATUS" --hint string:image-path:$IMAGE_URL -i $ICON -p > /tmp/sat_notification_info_id
+        fi
+        ;;
+    *)
+        echo "Invalid usage! Please use any of the following: up, down, mute, pause, next, prev, media-info"
+        ;;
+esac
+exit

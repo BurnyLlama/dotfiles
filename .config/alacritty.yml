@@ -1,0 +1,91 @@
+window:
+  padding:
+    x: 24 
+    y: 24
+  dynamic_padding: true
+  title: Alacritty
+  class:
+    instance: Alacritty
+    general: Alacritty
+  decorations: full
+
+font: 
+  normal: 
+    family: FiraCode Nerd Font
+    style: Regular
+  bold: 
+    family: FiraCode Nerd Font
+    style: Medium
+  size: 9.5
+  ligatures: true
+
+render_timer: true
+
+draw_bold_text_with_bright_colors: false
+
+schemes:
+  qwik1: &qwik1
+    primary:
+      foreground: '#E0E0FF'
+      background: '#10102F'
+    selection:
+      text: '#10102F'
+      background: '#E0E0FF'
+    normal:
+      black: '#30304F'
+      red: '#EF5255'
+      green: '#72D661'
+      yellow: '#F3C025'
+      blue: '#4C6DEF'
+      cyan: '#4CDCDF'
+      magenta: '#967CF4'
+      white: '#C0C0DF'
+    bright:
+      black: '#60607F'
+      red: '#FA7A7C'
+      green: '#93E684'
+      yellow: '#FFD147'
+      blue: '#74B6FB'
+      cyan: '#6BE8EB'
+      magenta: '#BCAAFC'
+      white: '#E0E0FF'
+    hints:
+      transparent_background_colors: true
+  qwik2: &qwik2
+    primary:
+      foreground: '#E0E0FF'
+      background: '#10102F'
+    selection:
+      text: '#10102F'
+      background: '#E0E0FF'
+    normal:
+      black: '#30304F'
+      red: '#FA7A7C'
+      green: '#5DEEA1'
+      yellow: '#FFD147'
+      blue: '#74B6FB'
+      cyan: '#6BE8EB'
+      magenta: '#BCAAFD'
+      white: '#C0C0DF'
+    bright:
+      black: '#60607F'
+      red: '#FA999A'
+      green: '#A9F4CC'
+      yellow: '#FFE38F'
+      blue: '#A3CEFA'
+      cyan: '#B7EFF0'
+      magenta: '#CFC2FE'
+      white: '#E0E0FF'
+  hints:
+    transparent_background_colors: true
+
+colors: *qwik2
+            
+window.opacity: 0.98
+live_config_reload: true
+
+cursor:
+  style: Underline
+  blinking: Always
+  blink_interval: 750
+  unfocused-hollow: true

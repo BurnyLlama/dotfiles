@@ -1,0 +1,193 @@
+* {
+    /* `otf-font-awesome` is required to be installed for icons */
+    font-family: FontAwesome, Manrope, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+}
+
+window#waybar {
+    opacity: 0.9;
+    background-color: #10102F;
+    border-bottom: 3px solid #40405F;
+    color: #E0E0FF;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+#tags button,
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: #ffffff;
+    /* Use box-shadow instead of border so the text isn't offset */
+    box-shadow: inset 0 -3px transparent;
+    /* Avoid rounded borders under each workspace name */
+    border: none;
+    border-radius: 0;
+}
+
+#workspaces button.empty {
+    color: #aaaaaa;
+}
+
+#tags button.occupied,
+#workspaces button.occupied {
+    background-color: #30304F;
+    box-shadow: inset 0 -3px #50506F;
+}
+
+#tags button.focused,
+#workspaces button.focused,
+#workspaces button.active {
+    color: #10102F;
+    background-color: #3DDF89;
+    box-shadow: inset 0 -3px #5DEEA1;
+}
+
+#tags button.urgent,
+#workspaces button.urgent {
+    background-color: #EF5255;
+    box-shadow: inset 0 -3px #FA7A7C;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#tags button:hover,
+#workspaces button:hover {
+    color: #10102F;
+    background-color: #A9F4CC;
+    box-shadow: inset 0 -3px #A9F4CC;
+}
+
+#mode {
+    background-color: #64727D;
+    border-bottom: 3px solid #ffffff;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#mpd,
+#mpris {
+    padding: 0 10px;
+    color: #10102F;
+}
+
+/* If tags is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #tags {
+    margin-left: 0;
+}
+
+/* If tags is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #tags {
+    margin-right: 0;
+}
+
+#clock {
+    background-color: #F4C025;
+    box-shadow: inset 0 -3px #FFD147;
+    font-feature-settings: "tnum";
+}
+
+#mpris {
+    background-color: #4CDCDF;
+    box-shadow: inset 0 -3px #6BE8EB;
+    font-feature-settings: "tnum";
+}
+
+label:focus {
+    background-color: #000000;
+}
+
+#cpu {
+    background-color: #2ecc71;
+    color: #000000;
+}
+
+#memory {
+    background-color: #F4C025;
+    box-shadow: inset 0 -3px #FFD147;
+}
+
+#disk {
+    background-color: #F4C025;
+    box-shadow: inset 0 -3px #FFD147;
+}
+
+#network {
+    background-color: #72D661;
+    box-shadow: inset 0 -3px #93E684;
+}
+
+#network.disconnected {
+    background-color: #EE588F;
+    box-shadow: inset 0 -3px #FA80AC;
+}
+
+#pulseaudio {
+    background-color: #4C9CEF;
+    box-shadow: inset 0 -3px #74B6FB;
+}
+
+#pulseaudio.muted {
+    background-color: #80809F;
+    box-shadow: inset 0 -3px #9090AF;
+}
+
+#temperature {
+    background-color: #EB801B;
+    box-shadow: inset 0 -3px #F99434;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+    background-color: #F4C025;
+    box-shadow: inset 0 -3px #FFD147;
+}
+
+#tray {
+    background-color: #20203F;
+    box-shadow: inset 0 -3px #30304F;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #EF5255;
+}
+
+#idle_inhibitor {
+    background-color: #2d3436;
+}
+
+#idle_inhibitor.activated {
+    background-color: #ecf0f1;
+    color: #2d3436;
+}
+
+#keyboard-state {
+    background: #97e1ad;
+    color: #000000;
+    padding: 0 0px;
+    margin: 0 5px;
+    min-width: 16px;
+}
+
+#keyboard-state > label {
+    padding: 0 5px;
+}
+
+#keyboard-state > label.locked {
+    background: rgba(0, 0, 0, 0.2);
+}

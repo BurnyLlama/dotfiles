@@ -1,0 +1,32 @@
+#!/bin/bash
+
+[[ -z "$1" ]] && echo "Please provide an action: init, add <iface> <destination>." && exit
+[[ `id -u` -ne 0 ]] && echo "Please run as root or with sudo/doas!" && exit
+
+[[ -f /etc/arp-proxies ]] || touch /etc/arp-proxies
+
+ACTION=$1
+
+case $ACTION in
+    "add")
+        IFACE=$2
+        DST=$3
+        arp -i ${IFACE} -Ds ${DST} ${IFACE} pub
+    ;;
+
+    "init")
+        while read RULE; do
+            IFACE=$(echo $RULE | awk '{print $1}')
+            DST=$(echo $RULE | awk '{print $2}')
+            echo "Adding proxy for $DST on $IFACE"
+            arp -i ${IFACE} -Ds ${DST} ${IFACE} pub
+        done < /etc/arp-proxies
+    ;;
+
+    *)
+        echo "Bad action! Usage:"
+        echo "1. arp-proxy add <INTERFACE> <DESTINATION IP>"
+        echo "2. arp-proxy init"
+        echo "'init' reads rules from /etc/arp-proxies"
+    ;;
+esac

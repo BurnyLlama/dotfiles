@@ -1,0 +1,166 @@
+#
+# Launcher, Hot-Reload Configs, Etc.
+#
+
+# Reload sxhkd config
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# Quit/reload bspwm
+super + alt + {q,r}
+	bspc {quit, wm -r}
+
+# Launch a terminal
+super + Return
+	alacritty
+
+# Launch VS Codium
+super + e
+	vscodium
+
+# Applauncher
+super + @space
+    rofi -show drun
+
+# Window switcher
+super + ctrl + space
+    rofi -show window
+
+# Lock screen
+super + l
+    light-locker-command -l
+
+
+
+#
+# Layouts
+#
+
+# Cycle layouts
+super + alt + space
+    bsp-layout cycle --layouts tall,monocle,grid
+
+# Alternate layouts
+# super + m
+	# bspc desktop -l next
+
+
+
+#
+# Window Navigation, Etc.
+#
+
+# Kill/close window
+super + {_,shift + }q
+	bspc node -{k,c}
+
+# Set window state
+super + {t,shift + t,f,shift + f}
+	bspc node -t {tiled,pseudo-tiled,floating,fullscreen}
+
+# Focus with Super + Direction, Swap with Super + Direction
+super + {_,shift + }{Left,Down,Up,Right}
+    bspc node -{f,s} {west,south,north,east}
+
+# Move the window
+super + shift + ctrl + {Left,Down,Up,Right}
+    bspc node -n {west,south,north,east}
+    
+# expand a window by moving one of its side outward
+super + alt + {Left,Up,Down,Right}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {Left,Up,Down,Right}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# rotate the leaves of the tree
+super + {o,p}
+    bspc node @focused:/ -R {270,90}
+
+# flip the leaves of the tree
+super + shift + {o,p}
+    bspc node @focused:/ -F {horizontal,vertical}
+
+# focus the next/previous node in the current desktop
+super + {_,shift + }Tab
+	bspc node -f {next,prev}.local
+alt + {_,shift + }Tab
+	bspc node -f {next,prev}.local
+
+
+
+#
+# Workspaces
+#
+
+# focus the next/previous desktop in the current monitor
+super + ctrl + {Left, Right}
+	bspc desktop -f {prev,next}.local
+
+# focus or send (shift) to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+
+
+#
+# Utilities - Screenshot, calc, etc.
+#
+
+# Screenshots
+super + shift + s
+    flameshot gui
+super + @Print
+    screenshot area
+
+# Calculator
+super + c
+    rofi -show calc -modi calc
+
+# Emoji
+super + period
+    rofi -modi emoji -show emoji -no-show-icons
+
+# Kaomoji
+super + shift + period
+    ${HOME}/.local/share/rofi-kaomoji/kaomoji.sh
+
+# Notifications
+super + n
+    kill -s USR1 $(pidof deadd-notification-center)
+
+# Scratchpad
+super + shift + Return
+    scratchpad
+
+#
+# Brightness, Volume, Etc.
+#
+
+# Volume
+XF86AudioRaiseVolume
+	sat up
+XF86AudioLowerVolume
+	sat down
+XF86AudioMute
+    sat toggle
+
+# Audio info
+super + i
+    sat media-info
+
+# Audio playback
+XF86AudioNext
+    sat next
+XF86AudioPrev
+    sat prev
+XF86AudioPlay
+    sat pause
+
+
+#
+# Wacom
+#
+super + ctrl + shift + i
+    swt

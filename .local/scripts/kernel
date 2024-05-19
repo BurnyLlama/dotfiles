@@ -1,0 +1,232 @@
+#!/bin/bash
+
+# Default options
+KERNEL_DIR="$HOME/Development/Linux"
+KERNEL_BUILD_OPTS="-j$(nproc)"
+KERNEL_ESP_DIR="/boot"
+KERNEL_ARCH="x86_64"
+
+KERNEL_DRACUT_FLAGS="-f"
+KERNEL_MKINITCPIO_FLAGS=""
+
+KERNEL_INSTALL_KERNEL=yes
+KERNEL_INSTALL_MODULES=yes
+KERNEL_INSTALL_HEADERS=yes
+KERNEL_INSTALL_INITRD=yes
+
+# Load user defined options...
+[[ -f $HOME/.config/kernel ]] && source $HOME/.config/kernel
+
+# Error preventions
+[[ -d $KERNEL_DIR ]] || mkdir -p $KERNEL_DIR
+
+# Change to the $KERNEL_DIR so everything is in one place...
+BEFORE_DIR=$(pwd)
+cd $KERNEL_DIR
+
+
+
+# ---
+
+function silent_run {
+    # Makes the command silent by muting ONLY stderr
+    $@ 2> /dev/null
+}
+
+function quiet_run {
+    # Makes the command quiet by muting BOTH stdout and stderr.
+    $@ &> /dev/null
+}
+
+function kernel_download {
+    [[ -z $1 ]] && echo "No version provided!" && exit 1
+    VERSION=$1
+    FILENAME="linux-$VERSION.tar.xz"
+    DL_URL="https://cdn.kernel.org/pub/linux/kernel/v${VERSION:0:1}.x/linux-$VERSION.tar.xz"
+
+    [[ -d "linux-$VERSION" ]] && echo "Already downloaded..." && cd "linux-$VERSION" && exec $SHELL
+
+    # Get downloader...
+    quiet_run command -v curl   && DOWNLOADER="curl -o $FILENAME"
+    quiet_run command -v wget   && DOWNLOADER="wget -O $FILENAME"
+    quiet_run command -v aria2c && DOWNLOADER="aria2c -x 16 -j 16 -s 16 -o $FILENAME"
+    [[ -z $DOWNLOADER ]] && echo "Found no program to use to download the kernel! (Please install 'aria2c', 'curl', or 'wget'.)" && exit 1
+
+    echo "Downloading kernel sources tarball..."
+    silent_run $DOWNLOADER "$DL_URL" || echo -e "Download failed! Maybe the the kernel version specified doesn't exist?\nVER: $VERSION\nURL: $DL_URL"
+    silent_run $DOWNLOADER "$DL_URL" || exit 1
+    echo "Download done!"
+
+    echo "Extracting kernel sources tarball..."
+    tar xpf "$FILENAME"
+    echo "Extraction done!"
+
+    echo "Removing tarball..."
+    rm -v "$FILENAME"
+    echo "Removed tarball!"
+
+    cd "linux-$VERSION" && exec $SHELL
+}
+
+function kernel_cd {
+    VERSION=$1
+
+    # Execing $SHELL just gives the user a shell in $KERNEL_DIR
+    if [ -z $VERSION ]; then
+        exec $SHELL
+    else
+        quiet_run cd "linux-$VERSION" || (echo "Kernel version '$VERSION' does not exist! Try 'kernel download $VERSION'..." && exit 1)
+        exec $SHELL
+    fi
+}
+
+function kernel_switch_dir {
+    VERSION=$1
+
+    if [ -z $VERSION ]; then
+        cd $BEFORE_DIR
+    else
+        quiet_run cd "linux-$VERSION" || (echo "Kernel version '$VERSION' does not exist! Try 'kernel download $VERSION'..." && exit 1)
+    fi
+}
+
+function kernel_configure {
+    VERSION=$1
+
+    kernel_switch_dir $VERSION
+
+    silent_run make nconfig || echo -e "Probably not in a kernel source directory! Try 'kernel cd <VERSION>' or 'kernel configure <VERSION>'\nVER: $VERSION\nPWD: $(pwd)" && exit 1
+}
+
+function kernel_build {
+    kernel_switch_dir $1
+
+    echo "These are your make/build options: '$KERNEL_BUILD_OPTS'"
+    echo
+
+    echo "Making kernel..."
+    make $KERNEL_BUILD_OPTS
+
+    echo
+    echo "Making kernel modules..."
+    make $KERNEL_BUILD_OPTS modules
+
+    echo
+    echo "Making kernel headers..."
+    make $KERNEL_BUILD_OPTS headers
+
+    echo
+    echo "Kernel fully built! (Not installed; install via 'kernel install'...)"
+}
+
+function kernel_install_to_esp {
+    VERSION=$1
+    ELEVATOR=$2
+
+    echo "Installing kernel image..."
+    $ELEVATOR cp "arch/$KERNEL_ARCH/boot/bzImage" "$KERNEL_ESP_DIR/vmlinuz-$VERSION"
+
+    echo "Installing system map..."
+    $ELEVATOR cp "System.map" "$KERNEL_ESP_DIR/System.map-$VERSION"
+
+    echo "Installing config..."
+    $ELEVATOR cp ".config" "$KERNEL_ESP_DIR/config-$VERSION"
+}
+
+function kernel_install_create_initrd {
+    VERSION=$1
+    ELEVATOR=$2
+
+    quiet_run command -v mkinitcpio && INITRD_TOOL="mkinitcpio -g '$KERNEL_ESP_DIR/initramfs-$VERSION.img' $KERNEL_MKINITCPIO_FLAGS -k '$KERNEL_ESP_DIR/vmlinuz-$VERSION'"
+    quiet_run command -v dracut     && INITRD_TOOL="dracut --kernel-image '$KERNEL_ESP_DIR/vmlinuz-$VERSION' $KERNEL_DRACUT_FLAGS '$KERNEL_ESP_DIR/initramfs-$VERSION.img'"
+    [[ -z $INITRD_TOOL ]] && echo "Couldn't find any tool to create an initrd/initramfs! Please install mkinitcpio or dracut..." && exit 2
+
+    echo "Installing initrd/initramfs..."
+    echo "Running: $ELEVATOR $INITRD_TOOL"
+    $ELEVATOR $INITRD_TOOL
+}
+
+function kernel_install {
+    VERSION=$1
+
+    kernel_switch_dir $VERSION
+
+    echo "This will be installed:"
+    echo "KERNEL:  $([[ $KERNEL_INSTALL_KERNEL  == 'yes' ]] && printf 'YES' || printf 'NO')"
+    echo "MODULES: $([[ $KERNEL_INSTALL_MODULES == 'yes' ]] && printf 'YES' || printf 'NO')"
+    echo "HEADERS: $([[ $KERNEL_INSTALL_HEADERS == 'yes' ]] && printf 'YES' || printf 'NO')"
+    echo "INITRD:  $([[ $KERNEL_INSTALL_INITRD  == 'yes' ]] && printf 'YES' || printf 'NO')"
+    echo
+    echo "Installing kernel and initrd to:   '$KERNEL_ESP_DIR'"
+    echo "These are your make/build options: '$KERNEL_BUILD_OPTS'"
+
+    echo
+    echo "Sounds good? Else CTRL+C and change your settings in $HOME/.config/kernel. Will continue in 3 seconds if no action is made..."
+    read -p "Press any key to continue... " -t 3
+    echo
+
+    quiet_run command -v sudo && ELEVATOR="sudo"
+    quiet_run command -v doas && ELEVATOR="doas"
+    [[ `id -u` -eq 0 ]]       && ELEVATOR=" "
+
+    [[ -z $ELEVATOR ]] && echo "Couldn't find any tool to elevate privileges and you are not root! (Please install sudo or doas...)" && exit 2
+    echo "You might be prompted for your sudo/doas password, this is to get privileges to install the components above..."
+    echo
+
+    echo "Installing kernel..."
+    [[ $KERNEL_INSTALL_KERNEL  == 'yes' ]] && kernel_install_to_esp $VERSION $ELEVATOR
+
+    echo
+    echo "Installing modules..."
+    [[ $KERNEL_INSTALL_MODULES == 'yes' ]] && $ELEVATOR make $KERNEL_BUILD_OPTS modules_install
+
+    echo
+    echo "Installing headers..."
+    [[ $KERNEL_INSTALL_HEADERS == 'yes' ]] && $ELEVATOR make $KERNEL_BUILD_OPTS headers_install
+
+    echo
+    [[ $KERNEL_INSTALL_INITRD  == 'yes' ]] && kernel_install_create_initrd $VERSION $ELEVATOR
+
+    echo
+    echo "Installation of kernel done!"
+}
+
+
+
+# Handle input...
+case $1 in
+    "download")
+        kernel_download $2
+        ;;
+
+    "cd")
+        kernel_cd $2
+        ;;
+
+    "config" | "configure")
+        kernel_configure $2
+        ;;
+
+    "build")
+        kernel_build $2
+        ;;
+
+    "install")
+        kernel_install $2
+        ;;
+
+    *)
+        echo "Usage: 'kernel <ACTION> [ARGS...]'"
+        echo
+        echo "Actions:"
+        echo "download <VERSION>    -> Downloads and unpacks kernel <VERSION> from kernel.org..."
+        echo "cd [VERSION]          -> Changes directory to \$KERNEL_DIR ($KERNEL_DIR). If VERSION is specified, it changes directory to that kernel."
+        echo "configure [VERSION]   -> Configures kernel in current directory. If VERSION is specified, it changes directory to that kernel and configures it."
+        echo "build [VERSION]       -> Builds kernel in current directory. If VERSION is specified, it changes directory to that kernel and builds it."
+        echo "install [VERSION]     -> INstalls kernel in current directory. If VERSION is specified, it changes directory to that kernel and installs it."
+        echo
+        echo "Arguments in <*> are required and in [*] are optional..."
+        echo
+        echo "You can also specify settings in ~/.config/kernel..."
+        ;;
+esac

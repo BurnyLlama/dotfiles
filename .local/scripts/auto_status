@@ -1,0 +1,7 @@
+#!/bin/bash
+# This script autolreloads status twice every second
+# This script slows down on heavy use, like emerging big packages.
+while true; do
+    ~/.local/scripts/status
+    sleep 0.8
+done
