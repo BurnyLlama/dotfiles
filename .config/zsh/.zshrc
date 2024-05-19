@@ -262,22 +262,10 @@ eval "$(fzf --zsh)"
 
 ### PLUGINS ###
 # Fuzzy finder menu
-source /data/zsh/fzf-tab/fzf-tab.plugin.zsh
+source ${ZDOTDIR}/fzf-tab/fzf-tab.plugin.zsh
 # Auto suggestions; very pleasant.
-source /data/zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+source ${ZDOTDIR}/zsh-history-substring-search/zsh-history-substring-search.zsh
 # Give suggestions of what command to write.
-source /data/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ${ZDOTDIR}/zsh-autosuggestions/zsh-autosuggestions.zsh
 # Load syntax highlighting in the end!
-source /data/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-
-# Needed for distrobox containers...
-if [[ -d /run/host ]]; then
-    echo -e "\n\e[31m\e[1mIn a distrobox-container... Ignore previous sourcing errors... Sourcing properly!\n\n"
-    source /run/host/data/zsh/qwik.zsh-theme
-    source /run/host/data/zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
-    source /run/host/data/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-    # Load syntax highlighting in the end!
-    source /run/host/data/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-fi
-
+source ${ZDOTDIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
