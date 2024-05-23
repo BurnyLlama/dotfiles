@@ -1,26 +1,13 @@
-### VARIABLES ###
+### DEFERING ###
+# Allow defering of slower tasks...
+source ${ZDOTDIR}/zsh-defer/zsh-defer.plugin.zsh
+
+
+
+### PATH ###
 export PATH="${HOME}/.local/scripts:${HOME}/.local/bin:${HOME}/.cargo/bin:${HOME}/.config/composer/vendor/bin:${PATH}"
-fpath=( ~/.config/zsh/.zfunc "${fpath[@]}" )
+export fpath=( ~/.config/zsh/.zfunc "${fpath[@]}" )
 
-# A character to place at the end of a line if the line doesn't end with '\n'
-export PROMPT_EOL_MARK=""
-
-# Say how long a command took, if it took more than 3 seconds
-export REPORTTIME=3
-
-
-### COMMAND HISTORY ###
-HISTFILE=$ZDOTDIR/.zsh_history
-HISTSIZE=1000000
-SAVEHIST=1000000
-HISTDUP=erase
-setopt appendhistory
-setopt sharehistory
-setopt hist_ignore_space
-setopt hist_ignore_all_dups
-setopt hist_save_no_dups
-setopt hist_ignore_dups
-setopt hist_find_no_dups
 
 
 
@@ -100,6 +87,45 @@ zstyle ':fzf-tab:complete:*:argument-1' fzf-preview
 zstyle ':fzf-tab:complete:(\\|*/|)man:*' fzf-preview 'man $word'
 # Preview variables.
 zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ${(P)word}'
+
+
+
+### VARIABLES ###
+# A character to place at the end of a line if the line doesn't end with '\n'
+export PROMPT_EOL_MARK=""
+
+# Say how long a command took, if it took more than 3 seconds
+export REPORTTIME=3
+
+# Uhhh, found this on the interwebs... https://github.com/fdellwing/zsh-bat/blob/master/zsh-bat.plugin.zsh
+# Added --paging=always since I disabled paging for bat...
+export MANPAGER="sh -c 'col -bx | bat -l man --paging=always -p'"
+
+# Format how ouput of `time` will look. (Also affects $REPORTTIME output!)
+# Have to use an `echo` statement to get newlines...
+TIMEFMT=$(echo "${fg_no_bold[white]}╭─"\
+    "${fg_bold[green]}Job: ${fg_no_bold[yellow]}%J\n${fg_no_bold[white]}├"\
+    "${fg_bold[blue]}User: ${fg_no_bold[cyan]}%U"\
+    "${fg_bold[blue]}Kernel: ${fg_no_bold[cyan]}%S"\
+    "${fg_bold[blue]}Elapsed: ${fg_no_bold[cyan]}%E\n${fg_no_bold[white]}├"\
+    "${fg_bold[blue]}Peak RAM usage: ${fg_no_bold[cyan]}%M KB\n${fg_no_bold[white]}╰"\
+    "${fg_bold[blue]}CPU usage: ${fg_no_bold[cyan]}%P"\
+)
+
+
+
+### COMMAND HISTORY ###
+HISTFILE=$ZDOTDIR/.zsh_history
+HISTSIZE=1000000
+SAVEHIST=1000000
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
 
 
 
@@ -268,12 +294,12 @@ export AUTO_NOTIFY_BODY="'%command' took %elapsed seconds and exited with code %
 export AUTO_NOTIFY_IGNORE=("vim" "nvim" "man" "sleep" "wl-paste")
 export AUTO_NOTIFY_ICON_SUCCESS=emblem-success
 export AUTO_NOTIFY_ICON_FAILURE=emblem-error
-source ${ZDOTDIR}/zsh-auto-notify/auto-notify.plugin.zsh
+zsh-defer source ${ZDOTDIR}/zsh-auto-notify/auto-notify.plugin.zsh
 # Fuzzy finder menu
-source ${ZDOTDIR}/fzf-tab/fzf-tab.plugin.zsh
+zsh-defer source ${ZDOTDIR}/fzf-tab/fzf-tab.plugin.zsh
 # Auto suggestions; very pleasant.
-source ${ZDOTDIR}/zsh-history-substring-search/zsh-history-substring-search.zsh
+zsh-defer source ${ZDOTDIR}/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh
 # Give suggestions of what command to write.
-source ${ZDOTDIR}/zsh-autosuggestions/zsh-autosuggestions.zsh
+zsh-defer source ${ZDOTDIR}/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 # Load syntax highlighting in the end!
-source ${ZDOTDIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+zsh-defer source ${ZDOTDIR}/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
