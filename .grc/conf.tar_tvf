@@ -1,0 +1,50 @@
+# conf.tar for grc
+# Need to do filenames first else other fields get messed up.
+# filename
+regexp=(?<=\d{2}:\d{2} )\S+
+colours=bright_black
+======
+# filename
+regexp=( \./|[^/]+/?)$
+colours=cyan
+======
+# grey dashes in permissions
+regexp=-(?=[sdrwx\-]* \S+/\S+)
+colours=bright_black
+count=more
+======
+# blue s,d in permissions
+regexp=[ds](?=[sdrwx\-]* \S+/\S+)
+colours=blue
+count=more
+======
+# green r in permissions
+regexp=r(?=[sdrwx\-]* \S+/\S+)
+colours=green
+count=more
+======
+# yellow w in permissions
+regexp=w(?=[sdrwx\-]* \S+/\S+)
+colours=yellow
+count=more
+======
+# red x in permissions
+regexp=x(?=[sdrwx\-]* \S+/\S+)
+colours=red
+count=more
+======
+# yellow owner/group
+regexp=\S+/\S+(?= +\d+ +\d{4}-\d{2}-\d{2})
+colours=bright_yellow
+======
+regexp=\d+(?= \d{4}-\d{2}-\d{2})
+colours=white
+======
+# green time
+regexp=\d{2}:\d{2}
+colours=green
+======
+# bold green date
+regexp=\d{4}-\d{2}-\d{2}
+colours=green bold
+======

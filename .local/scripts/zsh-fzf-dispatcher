@@ -1,0 +1,51 @@
+#!/bin/env zsh
+
+# Dependencies:
+# * lsd
+# * chafa
+# * exiftool
+# * bat
+# * grc
+# * gentoolkit
+# * expect (for unbuffer command)
+
+# Available variables:
+# "desc:     $desc"
+# "word:     $word"
+# "group:    $group"
+# "realpath: $realpath"
+# "words:    $words"
+# https://github.com/Aloxaf/fzf-tab/wiki/Preview#variables
+
+# Exit if checking an option.
+[[ $group == "[option]" ]] && exit
+
+mimetype="$(file -bL --mime-type $realpath)"
+category="${mimetype%%/*}"
+filetype="${mimetype##*/}"
+
+# List directories
+[[ -d "$realpath" ]] && lsd --color always --icon always --icon-theme fancy "$realpath" && exit
+
+# Display images
+[[ $category == "image" ]] && chafa "$realpath" && exiftool "$realpath" && exit
+
+# Text and source files
+[[ $category == "text" ]] && bat --color=always "$realpath" && exit
+[[ $filetype == "@(json|javascript)" ]] && bat --color=always "$realpath" && exit
+[[ $realpath == *".tar."* ]] && grc -c "$HOME/.grc/conf.d/conf.tar_tvf" --colour=on -- tar tvf "$realpath" && exit
+
+# Packages
+function emerge_info {
+    unbuffer equery meta $1
+    unbuffer equery depgraph $1
+    unbuffer equery uses $1
+}
+[[ $group == "[package]" ]] && emerge_info $word && exit
+
+# Default behaviour: file info
+echo "Word: $word"
+echo "File: $realpath"
+echo "Mime: $mimetype"
+echo "Group: $group"
+
