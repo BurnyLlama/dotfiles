@@ -43,7 +43,6 @@ echo -e "\e[34m\e[1mBeinvenue au terminal, $USER!"
 
 
 
-
 ### MODULES ###
 # Colors
 autoload -U colors && colors
@@ -130,9 +129,13 @@ setopt hist_find_no_dups
 
 
 ### ALIASES ###
+# git
+alias gita="git status --short -M | fzf -m --ansi --preview='git diff --color-words {2}' | awk '{print \$2}' | xargs -- git add"
+
 # Dotfile bullshit...
 alias dotfile='/usr/bin/git --git-dir=$HOME/.local/dotfiles --work-tree=$HOME'
 alias .f='dotfile'
+alias .fa="git --git-dir=$HOME/.local/dotfiles --work-tree=$HOME status --short -M | fzf -m --ansi --preview='git --git-dir=$HOME/.local/dotfiles --work-tree=$HOME diff --color-words {2}' | awk '{print \$2}' | xargs -- git --git-dir=$HOME/.local/dotfiles --work-tree=$HOME add"
 alias dotfile-detect-hard-coded-user="dotfile ls-tree -r main --name-only | xargs grep --line-number $USER 2> /dev/null"
 
 # See kernel logs with color and all...
