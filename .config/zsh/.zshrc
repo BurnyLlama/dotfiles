@@ -12,7 +12,7 @@ export fpath=( ~/.config/zsh/.zfunc "${fpath[@]}" )
 
 
 ### THEME + TERMINAL + START-UP MESSAGE ###
-source /data/zsh/qwik.zsh-theme
+source "${ZDOTDIR}/theme.zsh"
 TERM=xterm-256color
 echo -e "\e[34m\e[1mBeinvenue au terminal, $USER!"
 
