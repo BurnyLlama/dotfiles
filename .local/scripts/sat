@@ -64,7 +64,7 @@ case "$ACTION" in
         ARTIST=$(playerctl metadata xesam:artist)
         TITLE=$(playerctl metadata xesam:title)
         IMAGE_URL=$(playerctl metadata mpris:artUrl)
-        STATUS=" ${ARTIST}\n ${TITLE}"
+        STATUS="󰠃 ${ARTIST}\n󰎇 ${TITLE}"
 
         if [[ -f /tmp/sat_notification_info_id ]]; then
             notify-send -a "Media Info" -t 7000 "Currently playing" "$STATUS" --hint string:image-path:$IMAGE_URL -i $ICON -r $(cat /tmp/sat_notification_info_id)
