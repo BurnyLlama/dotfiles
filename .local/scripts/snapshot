@@ -8,6 +8,7 @@
 /sbin/btrfs property set /.snapshots/*virt ro false
 /sbin/btrfs property set /data/.snapshots/*virt_data ro false
 /sbin/btrfs property set /data/.snapshots/*Development ro false
+/sbin/btrfs property set /data/.snapshots/*Photography ro false
 /bin/rm -rf /.snapshots/*
 /bin/rm -rf /data/.snapshots/*
 
@@ -17,6 +18,7 @@
 /sbin/btrfs subvolume snapshot -r /virt "/.snapshots/$(date +"%Y-%m-%d")-virt"
 /sbin/btrfs subvolume snapshot -r /data/virt_data "/data/.snapshots/$(date +"%Y-%m-%d")-virt_data"
 /sbin/btrfs subvolume snapshot -r /data/Development "/data/.snapshots/$(date +"%Y-%m-%d")-Development"
+/sbin/btrfs subvolume snapshot -r /data/Photography "/data/.snapshots/$(date +"%Y-%m-%d")-Photography"
 
 /bin/echo "Done!"
 
