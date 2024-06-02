@@ -25,10 +25,15 @@ riverctl set-repeat             50 300
 
 
 # Auto starts
-riverctl spawn "gnome-keyring-daemon"
+dbus-update-activation-environment --all # Might be needed for gnome keyring... idk...
+riverctl spawn "gnome-keyring-daemon -sd"
 riverctl spawn "swaync" # Notifications
 syncthing &
 pkill waybar; riverctl spawn "waybar"
+
+# Auto mount external disks
+riverctl spawn "udiskie"
+
 # Clipboard manager
 wl-paste --watch bash -c "xargs -0 -I{} clapboard store {}" &
 wl-paste -p --watch bash -c "xargs -0 -I{} clapboard store {}" &
