@@ -35,7 +35,7 @@ path_or_vcs () {
     [[ "$vcs_info_msg_0_" == "." ]] \
         && zstyle ':vcs_info:git*' formats $vcs_root_dir \
         || zstyle ':vcs_info:git*' formats $vcs_sub_dir
-    
+
     # Finally set the vcs_info again...
     vcs_info
 }
@@ -46,3 +46,26 @@ precmd () {
     path_or_vcs
     format_prompt
 }
+
+# Format how ouput of `time` will look. (Also affects $REPORTTIME output!)
+# Have to use an `echo` statement to get newlines...
+#TIMEFMT=$(echo "${fg_no_bold[white]}╭─"\
+#    "${fg_bold[green]}Job: ${fg_no_bold[yellow]}%J\n${fg_no_bold[white]}├"\
+#    "${fg_bold[blue]}User: ${fg_no_bold[cyan]}%U"\
+#    "${fg_bold[blue]}Kernel: ${fg_no_bold[cyan]}%S"\
+#    "${fg_bold[blue]}Elapsed: ${fg_no_bold[cyan]}%E\n${fg_no_bold[white]}├"\
+#    "${fg_bold[blue]}Peak RAM usage: ${fg_no_bold[cyan]}%M KB\n${fg_no_bold[white]}╰"\
+#    "${fg_bold[blue]}CPU usage: ${fg_no_bold[cyan]}%P"\
+#)
+
+TIMEFMT="
+-------------------
+${fg_bold[green]}Process statistics:${fg_no_bold[green]}
+${fg[green]}󰣖 ${fg[white]}Job: ${fg[cyan]}%J
+${fg[green]}󱎫 ${fg[white]}Time stats:
+   ${fg[green]}󱤥 ${fg[white]}User:    ${fg[cyan]}%U
+   ${fg[green]}󱫨 ${fg[white]}System:  ${fg[cyan]}%S
+   ${fg[green]}󱫬 ${fg[white]}Elapsed: ${fg[cyan]}%E
+${fg[green]}󰄧 ${fg[white]}RAM usage: ${fg[cyan]}%M
+${fg[green]}󰍛 ${fg[white]}CPU usage: ${fg[cyan]}%P
+"

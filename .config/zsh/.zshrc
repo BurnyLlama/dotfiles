@@ -20,7 +20,7 @@ echo -e "\e[34m\e[1mBeinvenue au terminal, $USER!"
 
 ### VIM BINDS ###
 # bindkey -v
-# 
+#
 # function zle-keymap-select () {
     # case $KEYMAP in
         # vicmd) echo -ne '\e[1 q';;      # block
@@ -35,7 +35,7 @@ echo -e "\e[34m\e[1mBeinvenue au terminal, $USER!"
 # zle -N zle-line-init
 # echo -ne '\e[5 q' # Use beam shape cursor on startup.
 # preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
-# 
+#
 # # Edit line in vim with ctrl-e:
 # autoload edit-command-line; zle -N edit-command-line
 # bindkey '^e' edit-command-line
@@ -99,17 +99,6 @@ export REPORTTIME=3
 # Uhhh, found this on the interwebs... https://github.com/fdellwing/zsh-bat/blob/master/zsh-bat.plugin.zsh
 # Added --paging=always since I disabled paging for bat...
 export MANPAGER="sh -c 'col -bx | bat -l man --paging=always -p'"
-
-# Format how ouput of `time` will look. (Also affects $REPORTTIME output!)
-# Have to use an `echo` statement to get newlines...
-TIMEFMT=$(echo "${fg_no_bold[white]}╭─"\
-    "${fg_bold[green]}Job: ${fg_no_bold[yellow]}%J\n${fg_no_bold[white]}├"\
-    "${fg_bold[blue]}User: ${fg_no_bold[cyan]}%U"\
-    "${fg_bold[blue]}Kernel: ${fg_no_bold[cyan]}%S"\
-    "${fg_bold[blue]}Elapsed: ${fg_no_bold[cyan]}%E\n${fg_no_bold[white]}├"\
-    "${fg_bold[blue]}Peak RAM usage: ${fg_no_bold[cyan]}%M KB\n${fg_no_bold[white]}╰"\
-    "${fg_bold[blue]}CPU usage: ${fg_no_bold[cyan]}%P"\
-)
 
 
 
@@ -271,7 +260,7 @@ export RUSTC_WRAPPER="sccache"
 #export RUSTFLAGS="-C target-feature=-crt-static" # Fixes dylibs or some bullshit for musl...
 
 # SCCACHE
-export SCCACHE_DIR="/data/sccache" 
+export SCCACHE_DIR="/data/sccache"
 export SCCACHE_CACHE_SIZE="10G"
 
 # pnpm
