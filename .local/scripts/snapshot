@@ -13,7 +13,7 @@
 /bin/rm -rf /data/.snapshots/*
 
 /bin/echo "Creating new snapshots..."
-/sbin/btrfs subvolume snapshot -r / "/.snapshots/$(date +"%Y-%m-%d")-system"
+#/sbin/btrfs subvolume snapshot -r / "/.snapshots/$(date +"%Y-%m-%d")-system"
 /sbin/btrfs subvolume snapshot -r /home "/.snapshots/$(date +"%Y-%m-%d")-home"
 /sbin/btrfs subvolume snapshot -r /virt "/.snapshots/$(date +"%Y-%m-%d")-virt"
 /sbin/btrfs subvolume snapshot -r /data/virt_data "/data/.snapshots/$(date +"%Y-%m-%d")-virt_data"

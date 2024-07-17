@@ -1,0 +1,14 @@
+Xcursor.theme: Bibata-Modern-Ice
+Xcursor.size: 16
+
+! Xft font-config
+Xft.dpi:        96
+Xft.antialias:  1
+Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.hintstyle:  hintslight
+Xft.autohint:   1
+Xft.lcdfilter:  lcddefault
+
+! URXVT Configuration
+! #include "/home/fabbe/.config/urxvt"
