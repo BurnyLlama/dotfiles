@@ -76,6 +76,12 @@ riverctl map normal $MOD+Shift 0 set-view-tags $all_tags
 
 
 
+# Rules
+# Enable SSD for all windows; fixes missing colored border on some (all?) GTK programs.
+riverctl rule-add -app-id "*" ssd
+
+
+
 # Load keybinds
 river-binder ~/.config/river/keybinds &
 
@@ -94,5 +100,5 @@ riverctl spawn alacritty
 
 # Default layouts
 riverctl default-layout rivertile
-exec rivertile -view-padding 8 -outer-padding 4
+rivertile -view-padding 4 -outer-padding 6 &
 
