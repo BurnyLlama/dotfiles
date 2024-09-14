@@ -10,5 +10,3 @@ Xft.hintstyle:  hintslight
 Xft.autohint:   1
 Xft.lcdfilter:  lcddefault
 
-! URXVT Configuration
-! #include "/home/fabbe/.config/urxvt"
