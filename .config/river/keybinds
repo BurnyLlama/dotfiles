@@ -66,17 +66,17 @@ $MOD + Up
 
 # Resizing main
 !$MOD + Left
-    send-layout-cmd rivertile "main-ratio -0.003"
+    send-layout-cmd filtile "main-ratio -1"
 
 !$MOD + Right
-    send-layout-cmd rivertile "main-ratio +0.003"
+    send-layout-cmd filtile "main-ratio +1"
 
 # Main window count
 $MOD + Shift + Plus
-    send-layout-cmd rivertile "main-count +1"
+    send-layout-cmd filtile "main-count +1"
 
 $MOD + Shift + Minus
-    send-layout-cmd rivertile "main-count -1"
+    send-layout-cmd filtile "main-count -1"
 
 # Swapping windows
 $MOD + Shift + J
@@ -98,6 +98,10 @@ $MOD + Shift + Return
 # Toggle fullscreen
 $MOD + Shift + F
     toggle-fullscreen
+
+# Toggle monocle layout
+$MOD + M
+    send-layout-cmd filtile "monocle"
 
 
 

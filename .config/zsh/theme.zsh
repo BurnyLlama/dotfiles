@@ -67,5 +67,5 @@ ${fg[green]}󱎫 ${fg[white]}Time stats:
    ${fg[green]}󱫨 ${fg[white]}System:  ${fg[cyan]}%S
    ${fg[green]}󱫬 ${fg[white]}Elapsed: ${fg[cyan]}%E
 ${fg[green]}󰄧 ${fg[white]}RAM usage: ${fg[cyan]}%M
-${fg[green]}󰍛 ${fg[white]}CPU usage: ${fg[cyan]}%P
+${fg[green]}󰍛 ${fg[white]}CPU usage: ${fg[cyan]}%P${reset_color}
 "

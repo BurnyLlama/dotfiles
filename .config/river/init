@@ -99,6 +99,7 @@ riverctl spawn alacritty
 
 
 # Default layouts
-riverctl default-layout rivertile
+riverctl default-layout filtile
 rivertile -view-padding 4 -outer-padding 6 &
+filtile main-ratio 60, smart-padding 4, outer-padding 6, view-padding 4
 

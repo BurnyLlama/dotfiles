@@ -236,6 +236,9 @@ alias performance="sudo dpm-query set all high performance"
 alias battery="sudo dpm-query set all low battery"
 alias balanced="sudo dpm-query set all auto balanced"
 
+# Start tabby ml (https://github.com/TabbyML/tabby)
+alias start_tabby='cd "${HOME}/.local/bin/tabby-ml" && ./tabby serve --model DeepseekCoder-1.3B --chat-model Qwen2-1.5B-Instruct --device vulkan'
+
 # Wayland Headless VNC
 alias wayvnc-headless="WLR_BACKENDS=headless wayland-env river -c ~/.config/river/headless"
 
