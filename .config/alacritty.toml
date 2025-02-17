@@ -1,4 +1,3 @@
-live_config_reload = true
 #render_timer = true
 
 [colors]
@@ -63,3 +62,6 @@ instance = "Alacritty"
 [window.padding]
 x = 24
 y = 24
+
+[general]
+live_config_reload = true

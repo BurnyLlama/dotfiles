@@ -75,6 +75,7 @@ autoload zed
 
 
 ### FZF previews ###
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
 # Min height
 zstyle ':fzf-tab:*' fzf-min-height 12
 # Directories previews
