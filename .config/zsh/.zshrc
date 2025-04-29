@@ -299,6 +299,12 @@ eval "$(fzf --zsh)"
 
 
 
+### Autos ###
+# Automatically download new dotfile changes.
+dotfile pull
+
+
+
 ### PLUGINS ###
 # Notify when long-running commands finnish
 export AUTO_NOTIFY_THRESHOLD=20
