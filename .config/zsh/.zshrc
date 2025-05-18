@@ -301,7 +301,7 @@ eval "$(fzf --zsh)"
 
 ### Autos ###
 # Automatically download new dotfile changes.
-dotfile pull
+dotfile-sync &>/dev/null &
 
 
 
