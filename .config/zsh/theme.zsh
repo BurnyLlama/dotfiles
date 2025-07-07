@@ -1,7 +1,5 @@
 #!/bin/zsh
 
-fpath=($fpath /data/zsh)
-
 # ZSH autoloads
 autoload -U  colors && colors
 autoload -Uz promptinit && promptinit
@@ -48,16 +46,6 @@ precmd () {
 }
 
 # Format how ouput of `time` will look. (Also affects $REPORTTIME output!)
-# Have to use an `echo` statement to get newlines...
-#TIMEFMT=$(echo "${fg_no_bold[white]}╭─"\
-#    "${fg_bold[green]}Job: ${fg_no_bold[yellow]}%J\n${fg_no_bold[white]}├"\
-#    "${fg_bold[blue]}User: ${fg_no_bold[cyan]}%U"\
-#    "${fg_bold[blue]}Kernel: ${fg_no_bold[cyan]}%S"\
-#    "${fg_bold[blue]}Elapsed: ${fg_no_bold[cyan]}%E\n${fg_no_bold[white]}├"\
-#    "${fg_bold[blue]}Peak RAM usage: ${fg_no_bold[cyan]}%M KB\n${fg_no_bold[white]}╰"\
-#    "${fg_bold[blue]}CPU usage: ${fg_no_bold[cyan]}%P"\
-#)
-
 TIMEFMT="
 -------------------
 ${fg_bold[green]}Process statistics:${fg_no_bold[green]}
