@@ -2,23 +2,20 @@
 	path = .config/nvim
 	url = https://github.com/BurnyLlama/nvim-config
 [submodule ".config/zsh/zsh-auto-notify"]
-	path = .config/zsh/zsh-auto-notify
+	path = .config/zsh/plugins/zsh-auto-notify
 	url = https://github.com/MichaelAquilina/zsh-auto-notify
-[submodule ".config/zsh/zsh-syntax-highlighting"]
-	path = .config/zsh/zsh-syntax-highlighting
-	url = https://github.com/zsh-users/zsh-syntax-highlighting
 [submodule ".config/zsh/fzf-tab"]
-	path = .config/zsh/fzf-tab
+	path = .config/zsh/plugins/fzf-tab
 	url = https://github.com/Aloxaf/fzf-tab
 [submodule ".config/zsh/zsh-autosuggestions"]
-	path = .config/zsh/zsh-autosuggestions
+	path = .config/zsh/plugins/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions
 [submodule ".config/zsh/zsh-history-substring-search"]
-	path = .config/zsh/zsh-history-substring-search
+	path = .config/zsh/plugins/zsh-history-substring-search
 	url = https://github.com/zsh-users/zsh-history-substring-search
 [submodule ".config/zsh/fast-syntax-highlighting"]
-	path = .config/zsh/fast-syntax-highlighting
+	path = .config/zsh/plugins/fast-syntax-highlighting
 	url = https://github.com/zdharma-continuum/fast-syntax-highlighting
 [submodule ".config/zsh/zsh-defer"]
-	path = .config/zsh/zsh-defer
+	path = .config/zsh/plugins/zsh-defer
 	url = https://github.com/romkatv/zsh-defer

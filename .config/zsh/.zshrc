@@ -1,6 +1,6 @@
 ### DEFERING ###
 # Allow defering of slower tasks...
-source ${ZDOTDIR}/zsh-defer/zsh-defer.plugin.zsh
+source ${ZDOTDIR}/plugins/zsh-defer/zsh-defer.plugin.zsh
 
 
 
@@ -313,12 +313,12 @@ export AUTO_NOTIFY_BODY="'%command' took %elapsed seconds and exited with code %
 export AUTO_NOTIFY_IGNORE=("vim" "nvim" "man" "sleep" "wl-paste")
 export AUTO_NOTIFY_ICON_SUCCESS=emblem-success
 export AUTO_NOTIFY_ICON_FAILURE=emblem-error
-zsh-defer source ${ZDOTDIR}/zsh-auto-notify/auto-notify.plugin.zsh
+zsh-defer source ${ZDOTDIR}/plugins/zsh-auto-notify/auto-notify.plugin.zsh
 # Fuzzy finder menu
-zsh-defer source ${ZDOTDIR}/fzf-tab/fzf-tab.plugin.zsh
+zsh-defer source ${ZDOTDIR}/plugins/fzf-tab/fzf-tab.plugin.zsh
 # Auto suggestions; very pleasant.
-zsh-defer source ${ZDOTDIR}/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh
+zsh-defer source ${ZDOTDIR}/plugins/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh
 # Give suggestions of what command to write.
-zsh-defer source ${ZDOTDIR}/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+zsh-defer source ${ZDOTDIR}/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 # Load syntax highlighting in the end!
-zsh-defer source ${ZDOTDIR}/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
+zsh-defer source ${ZDOTDIR}/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
