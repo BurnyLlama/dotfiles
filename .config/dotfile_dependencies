@@ -1,0 +1,15 @@
+# Shell (aliases, prompt, and such)
+lsd;A fancier `ls` command, colorises and adds icons to output.
+grc;Colorises outputs of various commands.
+fzf;A fuzzy finder. Used in ZSH to add an interactive fuzzy search
+bat;A more modern version of the `cat` command. Supports syntax highlighting.
+dpm-query;Needed to set performance profiles on some GPUs, using the `gpu-profile-set` command.
+# Scripts
+pactl;Used for the 'sat' script.
+playerctl;Used for the 'sat' script.
+wayshot;Used for the 'way-screenshot' script.
+slurp;Used for the 'way-screenshot' script.
+satty;Used for the 'way-screenshot' script.
+# Misc
+notify-send;Needed for various scripts that send notifcations.
+___NERD_FONT___;This will always show as missing. The shell uses various icons from a nerd font <https://www.nerdfonts.com>. If you can see a house here <󰋜 >, then you have a nerdfont installed.
