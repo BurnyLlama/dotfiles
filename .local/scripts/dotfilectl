@@ -1,0 +1,88 @@
+#!/bin/bash
+
+source "${ZDOTDIR:-${HOME}/.config/zsh}/lib/ansi_colors.zsh"
+source "${ZDOTDIR:-${HOME}/.config/zsh}/lib/utils.zsh"
+
+function dotfile() {
+    # shellcheck disable=SC2068
+    /usr/bin/git --git-dir="$HOME/.local/dotfiles" --work-tree="$HOME" $@
+}
+
+function check_dependencies() {
+    echo "Checking if you have all necessary dependencies to run this dotfile configuration without issues..."
+
+    if [ ! -f "${HOME}/.config/dotfile_dependencies" ]; then
+        echo -e "${Red}File '${HOME}/.config/dotfile_dependencies' not found!${Reset}"
+        exit 1
+    fi
+
+    while read -r line; do
+        [[ "${line}" == '#'* ]] && continue
+
+        command=$(echo $line | sed -E 's/;.*?//')
+        description=$(echo $line | sed -E 's/.*?;//')
+
+        if check_command_exists "${command}"; then
+            echo -e "${Green}󰞑 '${command}' is installed!${Reset}"
+        else
+            echo -e "${Red}󰀦 '${command}' is not installed${Reset}"
+            echo -e "   ${Blue}󱞩 󰋼 ${description}${Reset}"
+        fi
+    done < "${HOME}/.config/dotfile_dependencies"
+}
+
+function check_sync_status() {
+    LOCAL_COMMIT_HASH="$(dotfile log -n 1 --pretty=format:%H)"
+    REMOTE_COMMIT_HASH="$(dotfile ls-remote -q origin main | awk '{print $1}')"
+
+    if [[ "${LOCAL_COMMIT_HASH}" == "${REMOTE_COMMIT_HASH}" ]]; then
+        echo -e "${Green}󰞑 Dotfiles are synchronized!${Reset}"
+    else
+        echo -e "${Red}󰀦 Dotfiles are not synchronized!${Reset}"
+        echo -e "   ${Blue}󱞩 󰋼 There might be more changes for you to pull, or you've made unpushed changes.${Reset}"
+        echo -e "   ${Blue}󱞩 󱧡 Unless you've made any changes, run 'dotfilectl update' to update automatically.${Reset}"
+
+        [ "$1" == "notify" ] && \
+            notify-send \
+            "Your dotfiles are not synchronized!" \
+            "There might be more changes for you to pull, or you've made unpushed changes. Please run 'dotfilectl sync-status' for more information." \
+            -i software-update-available-symbolic \
+            -a "DotfileCTL" \
+            --transient
+    fi
+}
+
+function update_dotfiles() {
+    pull_result=$(dotfile pull 2>&1)
+
+    grep "Already up to date." <(echo "$pull_result") &> /dev/null && ALREADY_UPDATED=1
+    grep "file changed" <(echo "$pull_result") &> /dev/null && SUCCESFUL_UPDATE=1
+    [[ $ALREADY_UPDATED -ne 1 && $SUCCESFUL_UPDATE -ne 1 ]] && NEEDS_MANUAL_INTERVENTION=1
+
+    if [[ $NEEDS_MANUAL_INTERVENTION -eq 1 ]]; then
+        echo -e "${Red}󰀦 Dotfiles update failed!${Reset}"
+        echo -e "   ${Blue}󱞩 󰋼 There might be a merge conflict while pulling.${Reset}"
+        echo -e "   ${Blue}󱞩 󱧡 Please run 'dotfile pull' and see if there are any conflicts, if so, resolve them.${Reset}"
+    fi
+
+    [[ $ALREADY_UPDATED -eq 1 ]] && echo -e "${Green}󰞑 Dotfiles are already up to date!${Reset}"
+    [[ $SUCCESFUL_UPDATE -eq 1 ]] && echo -e "${Green}󰞑 Dotfiles updated successfully!${Reset}"
+}
+
+ACTION=$1
+
+case $ACTION in
+    check-dependencies)
+        check_dependencies
+        ;;
+    sync-status)
+        check_sync_status "$2"
+        ;;
+    update)
+        update_dotfiles
+        ;;
+    *)
+        echo -e "${Red}󰀦 Unknown action: ${ACTION}"
+        echo -e "  ${Blue}󱞩 󰋼 Available actions: check-dependencies, sync-status, update${Reset}"
+        ;;
+esac

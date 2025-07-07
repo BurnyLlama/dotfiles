@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # RUST
-export RUSTC_WRAPPER="sccache"
+check_command_exists sccache && export RUSTC_WRAPPER="sccache"
 #export RUSTFLAGS="-C target-feature=-crt-static" # Fixes dylibs or some bullshit for musl...
 
 # SCCACHE

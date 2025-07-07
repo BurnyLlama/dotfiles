@@ -1,6 +1,6 @@
- #!/bin/bash
+#!/bin/bash
 
-# SAT is a: 
+# SAT is a:
 # Simple
 # Audio
 # Tool
@@ -30,7 +30,7 @@ function send_noti {
 }
 
 ACTION=$1
-case "$ACTION" in 
+case "$ACTION" in
     "up")
         pactl set-sink-mute 0 false
         pactl set-sink-volume 0 +5%
@@ -45,7 +45,7 @@ case "$ACTION" in
         pactl set-sink-mute 0 toggle
         send_noti
         ;;
-    "pause") 
+    "pause")
         playerctl play-pause
         sat media-info
         ;;

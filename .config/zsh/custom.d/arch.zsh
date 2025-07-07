@@ -1,6 +1,7 @@
 #!/bin/zsh
 
-# Arch-specific aliases and functions
+# If not on Arch, stop sourcing this file.
+check_command_exists pacman || return
 
 # Map yay to paru
-alias yay="paru"
+check_command_exists paru && alias yay="paru"

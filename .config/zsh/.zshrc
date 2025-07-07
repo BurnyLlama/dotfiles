@@ -8,8 +8,12 @@ export PATH="${HOME}/.local/scripts:${HOME}/.local/bin:${HOME}/.cargo/bin:${HOME
 export fpath=( ~/.config/zsh/.zfunc "${fpath[@]}" )
 
 
+### LOAD LIBS ###
+source "${ZDOTDIR}/lib/ansi_colors.zsh" # Allows use of ansi colors (and styles).
+source "${ZDOTDIR}/lib/utils.zsh"
+
+
 ### THEME + TERMINAL + START-UP MESSAGE ###
-source "${ZDOTDIR}/ansi_colors.zsh" # Allows use of ansi colors (and styles).
 source "${ZDOTDIR}/theme.zsh"
 TERM=xterm-256color
 echo -e "${Blue}Beinvenue au terminal, $USER!${Reset}"
@@ -87,6 +91,8 @@ setopt hist_find_no_dups
 
 
 ### CUSTOM ALIASES, FUNCTIONS, ETC. ###
+# Check for sync status of dotfiles.
+setsid -- dotfilectl sync-status notify &> /dev/null
 
 # Make sure there is a custom.zsh "config file".
 if [ ! -f "$ZDOTDIR/custom.zsh" ]; then
@@ -100,10 +106,6 @@ cmp --silent "$ZDOTDIR/custom.zsh" "$ZDOTDIR/custom.default.zsh" || echo -e "${Y
 
 # Source it.
 source "$ZDOTDIR/custom.zsh"
-
-# This allows auto completions after doas and sudo to work as expected.
-alias doas="doas "
-alias sudo="sudo "
 
 
 ### KEYBINDS ###
@@ -133,11 +135,6 @@ fi
 
 ### Shell integrations ###
 eval "$(fzf --zsh)"
-
-
-### Autos ###
-# Automatically download new dotfile changes.
-setsid -- dotfile-sync &>/dev/null
 
 
 ### PLUGINS ###

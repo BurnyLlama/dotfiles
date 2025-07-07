@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+# If not on Gentoo, stop sourcing this file.
+check_command_exists emerge || return
+
 # Kernel compile on Gentoo
 alias kcd='cd /usr/src/linux'
 #alias kmake='make INSTALL_PATH=/boot/EFI/gentoo/ CC=clang LLVM=1 LLVM_IAS=1 -j12'
@@ -18,11 +21,11 @@ function mkinitramfs-rev {
 
 # Portage
 alias esearch='\emerge --search'
-alias emerge='doas emerge'
+alias emerge='elevate emerge'
 alias equ='equery uses'
 
 function emerge-try-fix-slot-conflict {
-    echo "Try running this:"
+    echo -e "${Blue}󱧡 Try running this:"
     echo "emerge --ignore-default-opts -va1 $(qdepends -Qqq -F '%{CAT}/%{PN}:%{SLOT}' "^${1}" | tr '\n' ' ')"
     #emerge --ignore-default-opts -va1 $(qdepends -Qqq -F '%{CAT}/%{PN}:%{SLOT}' "^${1}")
 }
