@@ -9,7 +9,7 @@ riverctl border-color-focused   0x3DDF89
 riverctl border-color-unfocused 0x40405F
 riverctl border-color-urgent    0xEF5255
 riverctl border-width           1
-riverctl xcursor-theme          Bibata-Modern-Ice 16
+riverctl xcursor-theme          Bibata-Modern-Ice 20
 
 # Wallpaper
 wbg ~/Media/Pictures/Wallpapers/qwik.png &
