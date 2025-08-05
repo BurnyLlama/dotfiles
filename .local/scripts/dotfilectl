@@ -71,6 +71,11 @@ function update_dotfiles() {
     [[ $SUCCESFUL_UPDATE -eq 1 ]] && echo -e "${Green}󰞑 Dotfiles updated successfully!${Reset}"
 }
 
+function update_submodules() {
+    echo "Updating submodules..."
+    dotfile submodule update --recursive --remote
+}
+
 ACTION=$1
 
 case $ACTION in
@@ -82,6 +87,7 @@ case $ACTION in
         ;;
     update)
         update_dotfiles
+        update_submodules
         ;;
     *)
         echo -e "${Red}󰀦 Unknown action: ${ACTION}"
