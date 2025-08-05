@@ -32,6 +32,8 @@ function check_dependencies() {
 }
 
 function check_sync_status() {
+    echo "Checking if you have the latest dotfile configurations..."
+
     LOCAL_COMMIT_HASH="$(dotfile log -n 1 --pretty=format:%H)"
     REMOTE_COMMIT_HASH="$(dotfile ls-remote -q origin main | awk '{print $1}')"
 

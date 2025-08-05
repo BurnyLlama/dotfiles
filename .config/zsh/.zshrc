@@ -92,7 +92,11 @@ setopt hist_find_no_dups
 
 ### CUSTOM ALIASES, FUNCTIONS, ETC. ###
 # Check for sync status of dotfiles.
-setsid -- dotfilectl sync-status notify &> /dev/null
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$SSH_CONNECTION" ]; then
+    dotfilectl sync-status
+else
+    setsid -- dotfilectl sync-status notify &> /dev/null
+fi
 
 # Make sure there is a custom.zsh "config file".
 if [ ! -f "$ZDOTDIR/custom.zsh" ]; then
