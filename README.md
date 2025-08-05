@@ -8,8 +8,9 @@ To restore the dotfiels run the following:
 
 ```sh
 mkdir -p $HOME/.local/dotfiles
-git clone --bare https://github.com/BurnyLlama/dotfiles -$HOME/.local/dotfiles
-git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout
+git clone --bare https://github.com/BurnyLlama/dotfiles $HOME/.local/dotfiles
+git --git-dir=$HOME/.local/dotfiles --work-tree=$HOME checkout
+dotfile submodule update --init --recursive
 ```
 
 See https://www.atlassian.com/git/tutorials/dotfiles for more information, including ways to deal with errors if this would overwrite any of your existing files.
