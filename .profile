@@ -10,7 +10,7 @@ export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 
 # cargo and rustup
-[[ -d "$HOME/.cargo" ]] && . "$HOME/.cargo/env"
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 
 #for toolchain in `ls -1 ${HOME}/.rustup/toolchains/`; do
 #    export PATH="${HOME}/.rustup/toolchains/${toolchain}/bin:${PATH}"
