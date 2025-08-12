@@ -17,10 +17,12 @@
 # "words:    $words"
 # https://github.com/Aloxaf/fzf-tab/wiki/Preview#variables
 
+source "${HOME}/.config/zsh/lib/utils.zsh"
+
 # Exit if checking an option.
 [[ $group == "[option]" ]] && exit
 
-mimetype="$(file -bL --mime-type $realpath)"
+[[ ! -z "${realpath+x}" ]] && mimetype="$(file -bL --mime-type $realpath)"
 category="${mimetype%%/*}"
 filetype="${mimetype##*/}"
 
@@ -36,12 +38,28 @@ filetype="${mimetype##*/}"
 [[ $realpath == *".tar."* ]] && grc -c "$HOME/.grc/conf.d/conf.tar_tvf" --colour=on -- tar tvf "$realpath" && exit
 
 # Packages
-function emerge_info {
-    unbuffer equery meta $1
-    unbuffer equery depgraph $1
-    unbuffer equery uses $1
+function emerge_info() {
+    check_command_exists equery || echo "Please install gentoolkit if you want information about this package."
+    unbuffer equery meta $word
+    unbuffer equery depgraph $word
+    unbuffer equery uses $word
 }
-[[ $group == "[package]" ]] && emerge_info $word && exit
+
+function dnf_info() {
+    dnf -Cq info $word
+}
+
+function pacman_info() {
+    unbuffer pacman -S --info $word
+}
+
+function package_info() {
+    check_command_exists emerge && emerge_info && exit
+    check_command_exists dnf && dnf_info && exit
+    check_command_exists pacman && pacman_info && exit
+}
+
+[[ $group == "[package]" || $group == "[packages]" ]] && package_info && exit
 
 # Default behaviour: file info
 echo "Word: $word"
