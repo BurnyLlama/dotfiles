@@ -58,7 +58,7 @@ function update_dotfiles() {
     pull_result=$(dotfile pull 2>&1)
 
     grep "Already up to date." <(echo "$pull_result") &> /dev/null && ALREADY_UPDATED=1
-    grep "file changed" <(echo "$pull_result") &> /dev/null && SUCCESFUL_UPDATE=1
+    grep -P "Updating [a-f0-9]+\.\.[a-f0-9]+" <(echo "$pull_result") &> /dev/null && SUCCESFUL_UPDATE=1
     [[ $ALREADY_UPDATED -ne 1 && $SUCCESFUL_UPDATE -ne 1 ]] && NEEDS_MANUAL_INTERVENTION=1
 
     if [[ $NEEDS_MANUAL_INTERVENTION -eq 1 ]]; then
