@@ -35,10 +35,6 @@ xrdb ~/.Xresources # Hopefully this helps setting cursor in some apps that seem 
 # Auto mount external disks
 riverctl spawn "udiskie"
 
-# Clipboard manager
-wl-paste --watch bash -c "xargs -0 -I{} clapboard store {}" &
-wl-paste -p --watch bash -c "xargs -0 -I{} clapboard store {}" &
-
 # Start pipewire if not already started.
 pkill pipewire; gentoo-pipewire-launcher &
 
