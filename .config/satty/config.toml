@@ -23,9 +23,13 @@ default-hide-toolbars = false
 
 # custom colours for the colour palette
 [color-palette]
-first= "#E04F53"
-second= "#64DB4F"
-third= "#44A6FC"
-fourth= "#F0D911"
-fifth= "#EB5BEB"
-custom= "#0F0F24"
+palette = [
+    "#E03F53",
+    "#64DB4F",
+    "#44A6FC",
+    "#F0D911",
+    "#EB5BEB",
+    "#0F0F24",
+]
+
+custom = []
