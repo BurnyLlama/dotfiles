@@ -48,7 +48,6 @@ _comp_options+=(globdots) # Include files beginning with a dot (.)
 # Styling of menus and such...
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' menu none
 zstyle ':completion::complete:*' gain-privileges 1
 zstyle ':completion:*:descriptions' format '[%d]'
 # Automatically find new executables. :)
@@ -80,6 +79,7 @@ setopt hist_find_no_dups
 
 ### FZF previews ###
 if [ $ZSH_PLUGIN_DISABLE_FZF_TAB != "true" ]; then
+    zstyle ':completion:*' menu none
     zstyle ':fzf-tab:*' use-fzf-default-opts yes
     # Min height
     zstyle ':fzf-tab:*' fzf-min-height 12
