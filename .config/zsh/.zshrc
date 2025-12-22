@@ -15,11 +15,13 @@ if [ ! -f "$ZDOTDIR/custom.zsh" ]; then
     cp "${ZDOTDIR}/custom.default.zsh" "${ZDOTDIR}/custom.zsh"
     chmod +x "$ZDOTDIR/custom.zsh"
 fi
-# Warn if custom.zsh doesn't match custom.default.zsh.
-cmp --silent "$ZDOTDIR/custom.zsh" "$ZDOTDIR/custom.default.zsh" \
-    || echo -e "${Yellow}Your custom.zsh file doesn't match the default.\n${Reset}> Run ${Blue}'cp ${ZDOTDIR}/custom.default.zsh ${ZDOTDIR}/custom.zsh'${Reset} if you want to update your custom aliases!${Reset}"
 # Source it.
 source "$ZDOTDIR/custom.zsh"
+# Warn if custom.zsh doesn't match custom.default.zsh.
+if [ $DOTFILECTL_CUSTOM_WARNING_DISABLE != "true" ]; then
+    cmp --silent "$ZDOTDIR/custom.zsh" "$ZDOTDIR/custom.default.zsh" \
+        || echo -e "${Yellow}Your custom.zsh file doesn't match the default.\n${Reset}> Run ${Blue}'cp ${ZDOTDIR}/custom.default.zsh ${ZDOTDIR}/custom.zsh'${Reset} if you want to update your custom aliases!${Reset}"
+fi
 # Check for sync status of dotfiles.
 if [ "$DOTFILECTL_SYNC_DISABLE" != "true" ]; then
     if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$SSH_CONNECTION" ]; then

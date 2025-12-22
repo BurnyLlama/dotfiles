@@ -3,6 +3,8 @@
 ### VARIABLES ###
 # Set to true to disable dotfilectl sync warnings on shell startup.
 DOTFILECTL_SYNC_DISABLE=false
+# Set to true to disable the warning for a non-matching custom.zsh on shell startup.
+DOTFILECTL_CUSTOM_WARNING_DISABLE=false
 # Disable custom theme
 ZSH_THEME_DISABLE=false
 # Disable banner/welcome message
