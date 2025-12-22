@@ -92,6 +92,8 @@ if [ $ZSH_PLUGIN_DISABLE_FZF_TAB != "true" ]; then
     zstyle ':fzf-tab:complete:(\\|*/|)man:*' fzf-preview 'man $word'
     # Preview variables.
     zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ${(P)word}'
+else
+    zstyle ':completion:*' menu select
 fi
 
 
