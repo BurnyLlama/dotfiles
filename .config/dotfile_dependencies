@@ -4,6 +4,10 @@ grc;Colorises outputs of various commands.
 fzf;A fuzzy finder. Used in ZSH to add an interactive fuzzy search
 bat;A more modern version of the `cat` command. Supports syntax highlighting.
 dpm-query;Needed to set performance profiles on some GPUs, using the `gpu-profile-set` command.
+## FZF tab menu
+chafa;Displays images in the tab menu of the shell.
+exiftool;Displays exif data in the tab menu of the shell.
+unbuffer;Used by the tab menu of the shell. (Note: the package may be called 'expect'.)
 # Scripts
 pactl;Used for the 'sat' script.
 playerctl;Used for the 'sat' script.

@@ -39,7 +39,7 @@ style = "Underline"
 
 [font]
 #ligatures = true
-size = 9.5
+size = 12
 
 [font.bold]
 family = "FiraCode Nerd Font"
