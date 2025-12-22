@@ -1,21 +1,28 @@
 [submodule ".config/nvim"]
 	path = .config/nvim
 	url = https://github.com/BurnyLlama/nvim-config
+	branch = master
 [submodule ".config/zsh/zsh-auto-notify"]
 	path = .config/zsh/plugins/zsh-auto-notify
 	url = https://github.com/MichaelAquilina/zsh-auto-notify
+	branch = master
 [submodule ".config/zsh/fzf-tab"]
 	path = .config/zsh/plugins/fzf-tab
 	url = https://github.com/Aloxaf/fzf-tab
+	branch = master
 [submodule ".config/zsh/zsh-autosuggestions"]
 	path = .config/zsh/plugins/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions
+	branch = master
 [submodule ".config/zsh/zsh-history-substring-search"]
 	path = .config/zsh/plugins/zsh-history-substring-search
 	url = https://github.com/zsh-users/zsh-history-substring-search
+	branch = master
 [submodule ".config/zsh/fast-syntax-highlighting"]
 	path = .config/zsh/plugins/fast-syntax-highlighting
 	url = https://github.com/zdharma-continuum/fast-syntax-highlighting
+	branch = master
 [submodule ".config/zsh/zsh-defer"]
 	path = .config/zsh/plugins/zsh-defer
 	url = https://github.com/romkatv/zsh-defer
+	branch = master
