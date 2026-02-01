@@ -18,13 +18,20 @@ function mkinitramfs-rev {
     doas dracut --zstd --kernel-image /boot/EFI/gentoo/vmlinuz-${KERNEL_VER}-gentoo-r${KERNEL_REV} -f -p -H --no-kernel --early-microcode /boot/EFI/gentoo/initramfs-${KERNEL_VER}-gentoo-r${KERNEL_REV}.img
 }
 
+# Watch compiling packages
+check_command_exists watch && alias emerge-watch='watch -cn 0.5 "genlop -c"'
 
 # Portage
 alias esearch='\emerge --search'
 alias emerge='elevate emerge'
-alias equ='equery uses'
+check_command_exists equery && alias equ='equery uses'
 
 function emerge-try-fix-slot-conflict {
+    if check_command_exists qdepends; then
+        echo "Please install 'app-portage/portage-utils' to use."
+        return 1
+    fi
+
     echo -e "${Blue}󱧡 Try running this:"
     echo "emerge --ignore-default-opts -va1 $(qdepends -Qqq -F '%{CAT}/%{PN}:%{SLOT}' "^${1}" | tr '\n' ' ')"
     #emerge --ignore-default-opts -va1 $(qdepends -Qqq -F '%{CAT}/%{PN}:%{SLOT}' "^${1}")
