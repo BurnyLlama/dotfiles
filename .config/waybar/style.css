@@ -1,11 +1,11 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: FontAwesome, Manrope, Roboto, Helvetica, Arial, sans-serif;
+    font-family: FontAwesome, Bricolage Grotesque, sans-serif;
     font-size: 13px;
+    min-height: 0;
 }
 
 window#waybar {
-    opacity: 0.9;
     background-color: #10102F;
     border-bottom: 3px solid #40405F;
     color: #E0E0FF;
@@ -15,7 +15,7 @@ window#waybar {
 
 #tags button,
 #workspaces button {
-    padding: 0 5px;
+    padding: 6px 4px;
     background-color: transparent;
     color: #ffffff;
     /* Use box-shadow instead of border so the text isn't offset */
