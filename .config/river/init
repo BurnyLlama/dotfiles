@@ -21,28 +21,24 @@ riverctl attach-mode            bottom
 riverctl focus-follows-cursor   normal
 riverctl set-cursor-warp        on-output-change
 riverctl set-repeat             50 300
-
+river-tag-overlay --border-width 1 --background-colour 0x10102F --border-colour 0x20203F --square-active-background-colour 0x3DDF89 --square-active-border-colour 0x3DDF89 --square-active-occupied-colour 0xA9F4CC --square-inactive-background-colour 0x40405F --square-inactive-border-colour 0x40405F --square-inactive-occupied-colour 0x60607F --square-urgent-background-colour 0xEF5255 --square-urgent-border-colour 0xEF5255 --square-urgent-occupied-colour 0xFA999A --timeout 400 & # Nice tag overlay
+pkill swayidle; swayidle \
+    timeout 300 "hyprlock --grace 5" \
+    timeout 360 "wlr-dpms off" \
+    after-resume "wlr-dpms on" \
+    before-sleep "hyprlock" & # Idle managment
 
 
 # Auto starts
 dbus-update-activation-environment --all # Might be needed for gnome keyring... idk...
 riverctl spawn "gnome-keyring-daemon -sd"
 riverctl spawn "swaync" # Notifications
+rivervtl spawn "~/.local/scripts/waybar-loop" # Waybar auto restart on crash...
 syncthing &
-~/.local/scripts/waybar-loop &
-xrdb ~/.Xresources # Hopefully this helps setting cursor in some apps that seem to not respect chosen cursor.
-
-# Auto mount external disks
-riverctl spawn "udiskie"
-
-# Start pipewire if not already started.
-pkill pipewire; gentoo-pipewire-launcher &
-
-# start desktop portal
-riverctl spawn "/usr/local/bin/start-xdg-desktop-portal-wlr"
-
-# Nice tag overlay
-river-tag-overlay --border-width 1 --background-colour 0x10102F --border-colour 0x20203F --square-active-background-colour 0x3DDF89 --square-active-border-colour 0x3DDF89 --square-active-occupied-colour 0xA9F4CC --square-inactive-background-colour 0x40405F --square-inactive-border-colour 0x40405F --square-inactive-occupied-colour 0x60607F --square-urgent-background-colour 0xEF5255 --square-urgent-border-colour 0xEF5255 --square-urgent-occupied-colour 0xFA999A --timeout 400 &
+xrdb ~/.Xresources & # Hopefully this helps setting cursor in some apps that seem to not respect chosen cursor.
+riverctl spawn "udiskie" # Auto mount external disks
+pkill pipewire; gentoo-pipewire-launcher & # Start pipewire if not already started.
+riverctl spawn "/usr/local/bin/start-xdg-desktop-portal-wlr" # Desktop portals
 
 
 

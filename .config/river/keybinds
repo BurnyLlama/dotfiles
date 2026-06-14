@@ -41,7 +41,7 @@ $MOD + Shift + E
     exit
 # Lock screen
 $MOD + L
-    spawn "waylock -fork-on-lock -init-color 0x00001F -input-color 0x967CF4 -fail-color 0xEF5255"
+    spawn "hyprlock"
 
 
 
