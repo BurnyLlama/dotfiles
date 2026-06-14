@@ -42,11 +42,15 @@ style = "Underline"
 size = 12
 
 [font.bold]
-family = "FiraCode Nerd Font"
+#family = "FiraCode Nerd Font"
+family = "Maple Mono NF"
+#family = "0xProto Nerd Font"
 style = "Medium"
 
 [font.normal]
-family = "FiraCode Nerd Font"
+#family = "FiraCode Nerd Font"
+family = "Maple Mono NF"
+#family = "0xProto Nerd Font"
 style = "Regular"
 
 [window]
