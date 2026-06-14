@@ -22,8 +22,9 @@ function mkinitramfs-rev {
 check_command_exists watch && alias emerge-watch='watch -cn 0.5 "genlop -c"'
 
 # Portage
-alias esearch='\emerge --search'
 alias emerge='elevate emerge'
+alias esearch='\emerge --search'
+alias pemerge='\emerge --pretend'
 check_command_exists equery && alias equ='equery uses'
 
 function emerge-try-fix-slot-conflict {
