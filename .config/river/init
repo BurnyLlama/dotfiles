@@ -25,7 +25,7 @@ river-tag-overlay --border-width 1 --background-colour 0x10102F --border-colour 
 pkill swayidle; swayidle \
     timeout 300 "hyprlock --grace 5" \
     timeout 360 "wlr-dpms off" \
-    after-resume "wlr-dpms on" \
+        resume "wlr-dpms on" \
     before-sleep "hyprlock" & # Idle managment
 
 
