@@ -29,7 +29,7 @@ dbus-update-activation-environment --all # Might be needed for gnome keyring... 
 riverctl spawn "gnome-keyring-daemon -sd"
 riverctl spawn "swaync" # Notifications
 syncthing &
-pkill waybar; riverctl spawn "waybar"
+~/.local/scripts/waybar-loop &
 xrdb ~/.Xresources # Hopefully this helps setting cursor in some apps that seem to not respect chosen cursor.
 
 # Auto mount external disks
