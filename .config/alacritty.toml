@@ -1,7 +1,45 @@
 #render_timer = true
 
+[general]
+live_config_reload = true
+
+[window]
+decorations = "None"
+dynamic_padding = true
+title = "Alacritty"
+opacity = 0.95
+
+[window.class]
+general = "Alacritty"
+instance = "Alacritty"
+
+[window.padding]
+x = 24
+y = 24
+
+[scrolling]
+history = 20000
+multiplier = 3
+
+[font]
+#ligatures = true
+size = 12
+
+[font.bold]
+#family = "FiraCode Nerd Font"
+family = "Maple Mono NF"
+#family = "0xProto Nerd Font"
+style = "Medium"
+
+[font.normal]
+#family = "FiraCode Nerd Font"
+family = "Maple Mono NF"
+#family = "0xProto Nerd Font"
+style = "Regular"
+
 [colors]
 draw_bold_text_with_bright_colors = false
+transparent_background_colors = true
 
 [colors.bright]
 black = "#60607F"
@@ -33,39 +71,10 @@ text = "#10102F"
 
 [cursor]
 blink_interval = 750
-#blinking = "Always"
-style = "Underline"
-#unfocused-hollow = true
+blink_timeout = 0
+unfocused_hollow = true
 
-[font]
-#ligatures = true
-size = 12
+[cursor.style]
+shape = "Underline"
+blinking = "Always"
 
-[font.bold]
-#family = "FiraCode Nerd Font"
-family = "Maple Mono NF"
-#family = "0xProto Nerd Font"
-style = "Medium"
-
-[font.normal]
-#family = "FiraCode Nerd Font"
-family = "Maple Mono NF"
-#family = "0xProto Nerd Font"
-style = "Regular"
-
-[window]
-decorations = "full"
-dynamic_padding = true
-title = "Alacritty"
-opacity = 0.98
-
-[window.class]
-general = "Alacritty"
-instance = "Alacritty"
-
-[window.padding]
-x = 24
-y = 24
-
-[general]
-live_config_reload = true
