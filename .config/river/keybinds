@@ -192,11 +192,14 @@ $MOD + Control + Right
 #
 # Screenshots
 #
-$MOD + S
-    spawn "way-screenshot screen"
+#$MOD + S
+#    spawn "way-screenshot screen"
+#
+#$MOD + Shift + S
+#    spawn "way-screenshot area"
 
 $MOD + Shift + S
-    spawn "way-screenshot area"
+    spawn "flameshot gui"
 
 $MOD + Control + S
     spawn "hyprpicker -a"
